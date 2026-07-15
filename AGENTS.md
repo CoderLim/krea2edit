@@ -541,3 +541,11 @@ domain: `https://<port>-<sandboxId>.e2b.app`.
   external domain; changing it breaks auth redirects.
 - OAuth providers (Google/GitHub) cannot complete their redirect flow on a
   sandbox preview domain; test with email+password instead.
+- The database ships pre-initialized (RBAC + a default admin account:
+  **admin@shipany.site / admin1234**). After starting the dev server, always
+  tell the user they can open the admin console at `<preview-url>/admin`
+  (sign in at `<preview-url>/sign-in` with those credentials) to configure
+  payments, login providers, email, storage, and AI in Settings.
+- After ANY change to `src/config/db/schema.ts`, immediately run
+  `pnpm db:push` to sync the database — never leave the schema and the
+  database out of sync, and don't wait for the user to ask.
