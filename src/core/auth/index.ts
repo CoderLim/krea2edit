@@ -194,10 +194,27 @@ export function getAuth(configs?: Record<string, string>) {
     trustedOrigins: (request) => {
       const origins: string[] = [];
       if (appUrl) origins.push(appUrl);
+      // AUTH_TRUSTED_ORIGINS: comma-separated extra origins. Entries starting
+      // with a dot are hostname-suffix wildcards (`.e2b.app` trusts every
+      // per-sandbox preview domain, e.g. https://3000-<id>.e2b.app); anything
+      // else must match the request origin exactly.
+      const extra = (process.env.AUTH_TRUSTED_ORIGINS || '')
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
+      origins.push(...extra.filter((rule) => !rule.startsWith('.')));
       try {
         const origin = request?.headers?.get?.('origin');
-        if (origin && new URL(origin).hostname === 'localhost')
-          origins.push(origin);
+        if (origin) {
+          const host = new URL(origin).hostname;
+          if (host === 'localhost') origins.push(origin);
+          const suffixMatched = extra.some(
+            (rule) =>
+              rule.startsWith('.') &&
+              (host === rule.slice(1) || host.endsWith(rule))
+          );
+          if (suffixMatched) origins.push(origin);
+        }
       } catch {}
       return origins;
     },

@@ -525,3 +525,19 @@ Keep `.env.example` minimal; don't add provider keys to it.
 7. **Always verify `pnpm build` passes** after making changes
 8. **Return `respData`/`respErr`** from API routes
 9. **Run the `security-scan` skill before every `git commit`** — it checks for leaked secrets, injection/XSS/logic vulnerabilities in the diff, and `.gitignore`/`.dockerignore` gaps. HIGH findings block the commit.
+
+## Cloud Sandbox Notes (ShipAny Code / e2b)
+
+When this project runs inside a cloud sandbox (working dir like
+`/home/user/sessions/<id>`), the dev server is proxied through a per-sandbox
+domain: `https://<port>-<sandboxId>.e2b.app`.
+
+- `pnpm dev` must listen on port 3000 (the default) — the preview panel
+  auto-detects it.
+- `vite.config.ts` already allows `.e2b.app` in `server.allowedHosts`, and
+  `.env.development` ships with `AUTH_TRUSTED_ORIGINS=.e2b.app` so better-auth
+  accepts sign-in/sign-up from the preview domain. Do not remove either.
+- Keep `VITE_APP_URL=http://localhost:3000` — the preview proxy handles the
+  external domain; changing it breaks auth redirects.
+- OAuth providers (Google/GitHub) cannot complete their redirect flow on a
+  sandbox preview domain; test with email+password instead.
