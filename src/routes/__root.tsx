@@ -19,6 +19,7 @@ import { GoogleAnalytics } from '@/components/analytics/google-analytics';
 import { Plausible } from '@/components/analytics/plausible';
 import { CustomerService } from '@/components/customer-service';
 import { GoogleOneTap } from '@/components/google-one-tap';
+import { SandboxPreviewBridge } from '@/components/sandbox-preview-bridge';
 import { Toaster } from '@/components/ui/sonner';
 
 import '@fontsource-variable/inter';
@@ -99,6 +100,7 @@ function RootComponent() {
         disableTransitionOnChange
       >
         <Outlet />
+        <SandboxPreviewBridge />
         <Toaster position="top-center" richColors />
         <GoogleOneTap />
         {analytics?.gaId ? (
