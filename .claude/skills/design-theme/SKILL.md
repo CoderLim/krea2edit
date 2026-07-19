@@ -22,9 +22,54 @@ Before touching code, decide and state (in the user's language):
   palette, not just a toggle).
 
 The subject's own world (film, music, code, food, finance…) is where
-distinctive choices come from. Avoid the three AI-default looks unless the
-brief asks: cream+serif+terracotta / near-black+single acid accent /
-newspaper hairlines+zero radius.
+distinctive choices come from.
+
+**Banned clichés** (the tells of AI-generated design — never use unless the
+brief literally asks for them):
+
+- Gradient-filled headline text, especially cyan→purple/pink
+- Neon-glow pill buttons on a near-black background
+- Purple/violet as the default accent for anything "AI"
+- Cream background + high-contrast serif + terracotta accent (the stock look)
+- Near-black + one acid green/vermilion accent as the whole identity
+- Ambient gradient orbs / light beams as hero background filler
+- Emoji as decoration in hero badges or headings
+- Inter for display type, or keeping the default Inter + Libre Baskerville pair
+
+## Direction library — pick ONE that fits, then adapt
+
+Don't invent from a blank page (free-form invention converges to the clichés
+above). Choose the direction that best fits the product, then push it with
+subject-specific details:
+
+1. **Cinematic still** (video/film/photo tools) — near-black, letterboxed
+   full-bleed imagery, warm single highlight; display `Bebas Neue` or
+   `Anton`, body `Inter Tight`. Signature: the hero IS a frame — 21:9 media
+   with burned-in captions, not a headline over glow.
+2. **Terminal / mono** (dev & AI infra) — paper or #0c0f0c, `JetBrains Mono`
+   accents, prompt-style typed hero, blinking caret; borders not shadows.
+3. **Soft brutalism** (creative tools, indie) — one solid saturated bg,
+   2px borders, hard offset shadows, zero gradients; `Space Grotesk` +
+   `IBM Plex Sans`. Signature: chunky bordered cards that overlap the grid.
+4. **Editorial magazine** (content, blogs, agencies) — ink on warm white,
+   exposed grid rules, drop caps or oversized serif; `Fraunces` +
+   `Source Sans 3`. Signature: headline typography as the artwork.
+5. **Product-first light** (SaaS dashboards) — white, tinted large shadows,
+   the product screenshot IS the hero thesis; `Plus Jakarta Sans`.
+6. **Swiss data** (analytics, finance) — white, visible 12-col grid, one red
+   or cobalt accent, huge tabular numbers; `Inter Tight` + `IBM Plex Mono`
+   for figures. Signature: a real data visual, not an illustration.
+7. **Playful geometric** (consumer, education) — 2–3 bright solid blocks,
+   XXL radius, sticker-like cards; `Baloo 2` or `Nunito` display.
+8. **Luxury dark** (premium, jewelry, pro tools) — charcoal (not black),
+   hairline gold/brass rules, generous letter-spacing; `Cormorant Garamond`
+   display used sparingly + `Inter Tight` body.
+9. **Organic / natural** (health, food, lifestyle) — earthy oklch palette,
+   humanist serif `Lora`, soft irregular shapes or real photography.
+
+All display fonts above are installable as `@fontsource/*` packages. Mixing
+two directions is fine; landing on none of them and reinventing "dark +
+gradient + glow" is not.
 
 ## 2. Plan tokens before editing
 
@@ -68,4 +113,5 @@ a default, not a choice — revise it.
   mode) — no unreadable text, no default-cream leftovers.
 - Check text contrast on primary buttons and muted text.
 - Screenshot-level self-critique: would this be mistaken for the stock
-  template? If yes, iterate once more.
+  template — or for any item on the banned-cliché list? If yes, iterate once
+  more before telling the user it's done.
