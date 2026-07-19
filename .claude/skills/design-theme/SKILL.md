@@ -107,6 +107,25 @@ a default, not a choice — revise it.
 - **Radius / density / motion**: `--radius`, section spacing, and at most a
   couple of deliberate animations. Respect `prefers-reduced-motion`.
 
+## 3.5 Deep reference — references/anti-slop.md (MANDATORY reads)
+
+`references/anti-slop.md` (vendored "tasteskill", battle-tested on real LLM
+landing-page output) is the authority on what reads as AI-generated. At
+minimum:
+
+- Before planning: read its **Section 0** (brief inference — declare a
+  one-line Design Read: "Reading this as: <page kind> for <audience>, with a
+  <vibe> language") and **Section 1** (the three dials).
+- Before writing blocks: read its **Section 9 "AI TELLS"** in full — dozens
+  of banned patterns (gradient headline text, glow buttons, decorative
+  status dots, section-number eyebrows, em-dash ban, fake div screenshots,
+  filler verbs like "Elevate/Seamless/Unleash", generic names/numbers…).
+- Before declaring done: run its **Section 14 Pre-Flight Check** and fix
+  every failing box.
+
+Note the adaptation header at the top of that file: its design-system /
+Next.js sections do NOT apply to this template.
+
 ## 4. Verify
 
 - Load the homepage in BOTH light and dark (or confirm the single committed
