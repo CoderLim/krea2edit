@@ -546,6 +546,10 @@ domain: `https://<port>-<sandboxId>.e2b.app`.
   tell the user they can open the admin console at `<preview-url>/admin`
   (sign in at `<preview-url>/sign-in` with those credentials) to configure
   payments, login providers, email, storage, and AI in Settings.
+- Browser automation is preinstalled: Playwright with Chromium
+  (`playwright` CLI on PATH, browsers at `$PLAYWRIGHT_BROWSERS_PATH`). The
+  clone-website skill's extraction phase should use it via Node scripts or
+  `playwright screenshot` — no MCP browser tools exist here.
 - After ANY change to `src/config/db/schema.ts`, immediately run
   `pnpm db:push` to sync the database — never leave the schema and the
   database out of sync, and don't wait for the user to ask.
