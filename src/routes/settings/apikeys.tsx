@@ -6,7 +6,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { Plus, Trash2 } from 'lucide-react';
+import { Check, Copy, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import {
@@ -35,11 +35,13 @@ import { Label } from '@/components/ui/label';
 interface ApiKey {
   id: string;
   keyPrefix: string;
+  key: string | null;
   title: string;
+  lastUsedAt: string | null;
   createdAt: string;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 function ApiKeysPage() {
   const queryClient = useQueryClient();
@@ -48,6 +50,9 @@ function ApiKeysPage() {
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [newKeyName, setNewKeyName] = useState('');
   const [open, setOpen] = useState(false);
+  const [createdKey, setCreatedKey] = useState('');
+  const [copied, setCopied] = useState(false);
+  const [keyToDelete, setKeyToDelete] = useState<ApiKey | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search), 300);
@@ -74,12 +79,12 @@ function ApiKeysPage() {
   const createMutation = useMutation({
     mutationFn: (title: string) =>
       apiPost<{ key: string }>('/api/apikeys', { title }),
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
       toast.success(m['settings.apikeys.created']());
-      await navigator.clipboard.writeText(data.key);
-      toast.info(m['settings.apikeys.key_copied']());
       setOpen(false);
       setNewKeyName('');
+      setCopied(false);
+      setCreatedKey(data.key);
       queryClient.invalidateQueries({ queryKey: ['apikeys'] });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -89,6 +94,7 @@ function ApiKeysPage() {
     mutationFn: (id: string) => apiDelete(`/api/apikeys?id=${id}`),
     onSuccess: () => {
       toast.success(m['settings.apikeys.deleted']());
+      setKeyToDelete(null);
       queryClient.invalidateQueries({ queryKey: ['apikeys'] });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -97,6 +103,26 @@ function ApiKeysPage() {
   function handleCreate() {
     if (!newKeyName.trim()) return;
     createMutation.mutate(newKeyName);
+  }
+
+  async function handleCopyKey(key: string) {
+    try {
+      await navigator.clipboard.writeText(key);
+      toast.success(m['settings.apikeys.key_copied']());
+    } catch {
+      toast.error(m['settings.apikeys.copy_failed']());
+    }
+  }
+
+  async function handleCopyCreatedKey() {
+    try {
+      await navigator.clipboard.writeText(createdKey);
+      setCopied(true);
+      toast.success(m['settings.apikeys.key_copied']());
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error(m['settings.apikeys.copy_failed']());
+    }
   }
 
   const columns: Column<ApiKey>[] = [
@@ -109,15 +135,43 @@ function ApiKeysPage() {
       cell: (k) => <span className="font-mono text-xs">{k.keyPrefix}…</span>,
     },
     {
+      header: m['settings.apikeys.created_col'](),
+      cell: (k) => (
+        <span className="text-muted-foreground text-xs">
+          {new Date(k.createdAt).toLocaleString()}
+        </span>
+      ),
+    },
+    {
+      header: m['settings.apikeys.last_used_col'](),
+      cell: (k) => (
+        <span className="text-muted-foreground text-xs">
+          {k.lastUsedAt
+            ? new Date(k.lastUsedAt).toLocaleString()
+            : m['settings.apikeys.never_used']()}
+        </span>
+      ),
+    },
+    {
       header: m['settings.apikeys.actions_col'](),
       className: 'w-[100px]',
       cell: (k) => (
         <div className="flex gap-1">
+          {k.key && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-7"
+              onClick={() => handleCopyKey(k.key!)}
+            >
+              <Copy className="size-3" />
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
             className="size-7"
-            onClick={() => deleteMutation.mutate(k.id)}
+            onClick={() => setKeyToDelete(k)}
           >
             <Trash2 className="size-3" />
           </Button>
@@ -149,33 +203,122 @@ function ApiKeysPage() {
                 {m['settings.apikeys.create_description']()}
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-2 py-4">
-              <Label htmlFor="key-name">
-                {m['settings.apikeys.key_name']()}
-              </Label>
-              <Input
-                id="key-name"
-                value={newKeyName}
-                onChange={(e) => setNewKeyName(e.target.value)}
-                placeholder={m['settings.apikeys.key_name_placeholder']()}
-              />
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setOpen(false)}>
-                {m['settings.apikeys.cancel']()}
-              </Button>
-              <Button
-                onClick={handleCreate}
-                disabled={createMutation.isPending}
-              >
-                {createMutation.isPending
-                  ? m['settings.apikeys.creating']()
-                  : m['settings.apikeys.create']()}
-              </Button>
-            </DialogFooter>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleCreate();
+              }}
+            >
+              <div className="space-y-2 py-4">
+                <Label htmlFor="key-name">
+                  {m['settings.apikeys.key_name']()}
+                </Label>
+                <Input
+                  id="key-name"
+                  value={newKeyName}
+                  onChange={(e) => setNewKeyName(e.target.value)}
+                  placeholder={m['settings.apikeys.key_name_placeholder']()}
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                >
+                  {m['settings.apikeys.cancel']()}
+                </Button>
+                <Button type="submit" disabled={createMutation.isPending}>
+                  {createMutation.isPending
+                    ? m['settings.apikeys.creating']()
+                    : m['settings.apikeys.create']()}
+                </Button>
+              </DialogFooter>
+            </form>
           </DialogContent>
         </Dialog>
       </div>
+
+      <Dialog
+        open={!!createdKey}
+        onOpenChange={(v) => {
+          if (!v) setCreatedKey('');
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{m['settings.apikeys.created_title']()}</DialogTitle>
+            <DialogDescription>
+              {m['settings.apikeys.created_warning']()}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center gap-2 py-4">
+            <Input
+              readOnly
+              value={createdKey}
+              className="font-mono text-xs"
+              onFocus={(e) => e.currentTarget.select()}
+            />
+            <Button
+              variant="outline"
+              size="icon"
+              className="shrink-0"
+              onClick={handleCopyCreatedKey}
+            >
+              {copied ? (
+                <Check className="size-4" />
+              ) : (
+                <Copy className="size-4" />
+              )}
+            </Button>
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setCreatedKey('')}>
+              {m['settings.apikeys.done']()}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={!!keyToDelete}
+        onOpenChange={(isOpen) => {
+          if (!isOpen && !deleteMutation.isPending) setKeyToDelete(null);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{m['settings.apikeys.delete_title']()}</DialogTitle>
+            <DialogDescription>
+              {m['settings.apikeys.delete_description']({
+                name: keyToDelete?.title ?? '',
+              })}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={deleteMutation.isPending}
+              onClick={() => setKeyToDelete(null)}
+            >
+              {m['settings.apikeys.cancel']()}
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={!keyToDelete || deleteMutation.isPending}
+              onClick={() => {
+                if (keyToDelete) deleteMutation.mutate(keyToDelete.id);
+              }}
+            >
+              {deleteMutation.isPending
+                ? m['settings.apikeys.deleting']()
+                : m['settings.apikeys.confirm_delete']()}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Card>
         <CardContent>

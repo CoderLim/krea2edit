@@ -86,7 +86,7 @@ function AttachmentGrid({ urls }: { urls: string[] }) {
   );
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 const STATUS_BADGE: Record<TicketStatus, 'default' | 'secondary' | 'outline'> =
   {
@@ -321,56 +321,67 @@ function TicketsPage() {
               {m['settings.tickets.create_description']()}
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-2">
-            <div className="space-y-1.5">
-              <Label htmlFor="ticket-title">
-                {m['settings.tickets.title_label']()}
-              </Label>
-              <Input
-                id="ticket-title"
-                value={title}
-                maxLength={200}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder={m['settings.tickets.title_placeholder']()}
-              />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitCreate();
+            }}
+          >
+            <div className="space-y-4 py-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="ticket-title">
+                  {m['settings.tickets.title_label']()}
+                </Label>
+                <Input
+                  id="ticket-title"
+                  value={title}
+                  maxLength={200}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={m['settings.tickets.title_placeholder']()}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="ticket-content">
+                  {m['settings.tickets.content_label']()}
+                </Label>
+                <Textarea
+                  id="ticket-content"
+                  value={content}
+                  maxLength={5000}
+                  rows={6}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder={m['settings.tickets.content_placeholder']()}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>{m['settings.tickets.attachments_label']()}</Label>
+                <ImageUploader
+                  key={uploaderKey}
+                  allowMultiple
+                  maxImages={9}
+                  onChange={(items) => {
+                    const { urls, uploading: busy } = uploaderState(items);
+                    setAttachments(urls);
+                    setUploading(busy);
+                  }}
+                />
+              </div>
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="ticket-content">
-                {m['settings.tickets.content_label']()}
-              </Label>
-              <Textarea
-                id="ticket-content"
-                value={content}
-                maxLength={5000}
-                rows={6}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder={m['settings.tickets.content_placeholder']()}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{m['settings.tickets.attachments_label']()}</Label>
-              <ImageUploader
-                key={uploaderKey}
-                allowMultiple
-                maxImages={9}
-                onChange={(items) => {
-                  const { urls, uploading: busy } = uploaderState(items);
-                  setAttachments(urls);
-                  setUploading(busy);
-                }}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateOpen(false)}>
-              {m['settings.tickets.cancel']()}
-            </Button>
-            <Button onClick={submitCreate} disabled={submitting || uploading}>
-              {submitting
-                ? m['settings.tickets.creating']()
-                : m['settings.tickets.create_submit']()}
-            </Button>
-          </DialogFooter>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setCreateOpen(false)}
+              >
+                {m['settings.tickets.cancel']()}
+              </Button>
+              <Button type="submit" disabled={submitting || uploading}>
+                {submitting
+                  ? m['settings.tickets.creating']()
+                  : m['settings.tickets.create_submit']()}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
 
@@ -425,7 +436,13 @@ function TicketsPage() {
           </div>
 
           {activeTicket?.status !== 'closed' ? (
-            <div className="space-y-3">
+            <form
+              className="space-y-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                submitReply();
+              }}
+            >
               <Textarea
                 value={reply}
                 maxLength={5000}
@@ -444,11 +461,11 @@ function TicketsPage() {
                 }}
               />
               <DialogFooter>
-                <Button variant="outline" onClick={closeTicket}>
+                <Button type="button" variant="outline" onClick={closeTicket}>
                   {m['settings.tickets.close_ticket']()}
                 </Button>
                 <Button
-                  onClick={submitReply}
+                  type="submit"
                   disabled={replying || replyUploading || !reply.trim()}
                 >
                   {replying
@@ -456,7 +473,7 @@ function TicketsPage() {
                     : m['settings.tickets.reply_submit']()}
                 </Button>
               </DialogFooter>
-            </div>
+            </form>
           ) : (
             <p className="text-muted-foreground text-sm">
               {m['settings.tickets.closed_notice']()}

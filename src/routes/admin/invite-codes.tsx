@@ -13,6 +13,7 @@ import { z } from 'zod';
 
 import { tDynamic } from '@/core/i18n/dynamic';
 import { apiDelete, apiGet, apiPost, type PageResult } from '@/lib/api-client';
+import { formatDateTime } from '@/lib/time';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
 import { DataTable, type Column } from '@/components/data-table';
@@ -194,7 +195,7 @@ function InviteCodesPage() {
       header: m['admin.invite_codes.expires_col'](),
       cell: (r) => (
         <span className="text-muted-foreground">
-          {r.expiresAt ? new Date(r.expiresAt).toLocaleDateString() : '—'}
+          {r.expiresAt ? formatDateTime(r.expiresAt) : '—'}
         </span>
       ),
     },
@@ -202,7 +203,7 @@ function InviteCodesPage() {
       header: m['admin.invite_codes.created_col'](),
       cell: (r) => (
         <span className="text-muted-foreground">
-          {new Date(r.createdAt).toLocaleDateString()}
+          {formatDateTime(r.createdAt)}
         </span>
       ),
     },

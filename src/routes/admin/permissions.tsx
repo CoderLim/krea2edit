@@ -41,7 +41,7 @@ interface Permission {
   title: string;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 const emptyForm = { code: '', resource: '', action: '', title: '' };
 
@@ -270,15 +270,27 @@ function PermissionsPage() {
                 {m['admin.permissions.create_description']()}
               </DialogDescription>
             </DialogHeader>
-            {renderFormFields(form, setForm)}
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setCreateOpen(false)}>
-                {m['admin.permissions.cancel']()}
-              </Button>
-              <Button onClick={handleCreate} disabled={saving}>
-                {m['admin.permissions.save']()}
-              </Button>
-            </DialogFooter>
+            <form
+              className="grid gap-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleCreate();
+              }}
+            >
+              {renderFormFields(form, setForm)}
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setCreateOpen(false)}
+                >
+                  {m['admin.permissions.cancel']()}
+                </Button>
+                <Button type="submit" disabled={saving}>
+                  {m['admin.permissions.save']()}
+                </Button>
+              </DialogFooter>
+            </form>
           </DialogContent>
         </Dialog>
       </div>
@@ -314,15 +326,27 @@ function PermissionsPage() {
               {m['admin.permissions.edit_description']()}
             </DialogDescription>
           </DialogHeader>
-          {renderFormFields(editForm, setEditForm)}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setEditingPerm(null)}>
-              {m['admin.permissions.cancel']()}
-            </Button>
-            <Button onClick={handleEdit} disabled={saving}>
-              {m['admin.permissions.save']()}
-            </Button>
-          </DialogFooter>
+          <form
+            className="grid gap-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleEdit();
+            }}
+          >
+            {renderFormFields(editForm, setEditForm)}
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setEditingPerm(null)}
+              >
+                {m['admin.permissions.cancel']()}
+              </Button>
+              <Button type="submit" disabled={saving}>
+                {m['admin.permissions.save']()}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
 

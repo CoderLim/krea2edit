@@ -49,7 +49,7 @@ interface Permission {
   title: string;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 const roleSchema = z.object({
   name: z.string().min(1),
@@ -446,41 +446,53 @@ function RolesPage() {
               {m['admin.roles.manage_permissions_description']()}
             </DialogDescription>
           </DialogHeader>
-          <div className="max-h-64 space-y-3 overflow-y-auto py-4">
-            {allPermissions.map((perm) => (
-              <label
-                key={perm.id}
-                className="flex cursor-pointer items-center gap-3"
-              >
-                <Checkbox
-                  checked={assignedPermIds.has(perm.id)}
-                  onCheckedChange={() => togglePermission(perm.id)}
-                />
-                <div>
-                  <div className="text-sm font-medium">{perm.title}</div>
-                  <div className="text-muted-foreground font-mono text-xs">
-                    {perm.code}
+          <form
+            className="grid gap-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSavePermissions();
+            }}
+          >
+            <div className="max-h-64 space-y-3 overflow-y-auto py-4">
+              {allPermissions.map((perm) => (
+                <label
+                  key={perm.id}
+                  className="flex cursor-pointer items-center gap-3"
+                >
+                  <Checkbox
+                    checked={assignedPermIds.has(perm.id)}
+                    onCheckedChange={() => togglePermission(perm.id)}
+                  />
+                  <div>
+                    <div className="text-sm font-medium">{perm.title}</div>
+                    <div className="text-muted-foreground font-mono text-xs">
+                      {perm.code}
+                    </div>
                   </div>
-                </div>
-              </label>
-            ))}
-            {allPermissions.length === 0 && (
-              <p className="text-muted-foreground py-4 text-center text-sm">
-                {m['admin.permissions.no_permissions']()}
-              </p>
-            )}
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setPermRole(null)}>
-              {m['admin.roles.cancel']()}
-            </Button>
-            <Button
-              onClick={handleSavePermissions}
-              disabled={savePermissionsMutation.isPending}
-            >
-              {m['admin.roles.save']()}
-            </Button>
-          </DialogFooter>
+                </label>
+              ))}
+              {allPermissions.length === 0 && (
+                <p className="text-muted-foreground py-4 text-center text-sm">
+                  {m['admin.permissions.no_permissions']()}
+                </p>
+              )}
+            </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setPermRole(null)}
+              >
+                {m['admin.roles.cancel']()}
+              </Button>
+              <Button
+                type="submit"
+                disabled={savePermissionsMutation.isPending}
+              >
+                {m['admin.roles.save']()}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

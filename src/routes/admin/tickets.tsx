@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 
 import { tDynamic } from '@/core/i18n/dynamic';
 import { apiGet, apiPatch, apiPost, type PageResult } from '@/lib/api-client';
+import { formatDateTime } from '@/lib/time';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
 import { DataTable, type Column } from '@/components/data-table';
@@ -192,7 +193,7 @@ function AdminTicketsPage() {
       className: 'w-[160px]',
       cell: (r) => (
         <span className="text-muted-foreground">
-          {new Date(r.createdAt).toLocaleString()}
+          {formatDateTime(r.createdAt)}
         </span>
       ),
     },
@@ -237,7 +238,7 @@ function AdminTicketsPage() {
       className: 'w-[160px]',
       cell: (r) => (
         <span className="text-muted-foreground">
-          {new Date(r.updatedAt).toLocaleString()}
+          {formatDateTime(r.updatedAt)}
         </span>
       ),
     },
@@ -370,7 +371,7 @@ function AdminTicketsPage() {
                     )}
                   </span>
                   <span className="text-muted-foreground text-xs">
-                    {new Date(msg.createdAt).toLocaleString()}
+                    {formatDateTime(msg.createdAt)}
                   </span>
                 </div>
                 <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -379,7 +380,13 @@ function AdminTicketsPage() {
             ))}
           </div>
 
-          <div className="space-y-3">
+          <form
+            className="space-y-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitReply();
+            }}
+          >
             {activeTicket?.status !== 'closed' && (
               <>
                 <Textarea
@@ -404,11 +411,15 @@ function AdminTicketsPage() {
             <DialogFooter>
               {activeTicket?.status !== 'closed' ? (
                 <>
-                  <Button variant="outline" onClick={() => setStatus('closed')}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setStatus('closed')}
+                  >
                     {m['admin.tickets.close_ticket']()}
                   </Button>
                   <Button
-                    onClick={submitReply}
+                    type="submit"
                     disabled={replying || replyUploading || !reply.trim()}
                   >
                     {replying
@@ -417,12 +428,16 @@ function AdminTicketsPage() {
                   </Button>
                 </>
               ) : (
-                <Button variant="outline" onClick={() => setStatus('open')}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setStatus('open')}
+                >
                   {m['admin.tickets.reopen_ticket']()}
                 </Button>
               )}
             </DialogFooter>
-          </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

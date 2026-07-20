@@ -92,7 +92,12 @@ export function SupportWidget() {
               </Link>
             </div>
           ) : (
-            <>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                submit();
+              }}
+            >
               <div className="space-y-4 py-2">
                 <div className="space-y-1.5">
                   <Label htmlFor="support-title">
@@ -146,16 +151,20 @@ export function SupportWidget() {
                 </p>
               </div>
               <DialogFooter>
-                <Button variant="outline" onClick={() => setOpen(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                >
                   {m['common.support.cancel']()}
                 </Button>
-                <Button onClick={submit} disabled={submitting || uploading}>
+                <Button type="submit" disabled={submitting || uploading}>
                   {submitting
                     ? m['common.support.submitting']()
                     : m['common.support.submit']()}
                 </Button>
               </DialogFooter>
-            </>
+            </form>
           )}
         </DialogContent>
       </Dialog>

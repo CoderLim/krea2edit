@@ -1,5 +1,6 @@
 import handler from '@tanstack/react-start/server-entry';
 
+import { getCookieFromHeader } from './lib/cookie';
 import { paraglideMiddleware } from './paraglide/server.js';
 
 // On Cloudflare Workers, stash the binding env (D1, ASSETS, …) on globalThis
@@ -28,6 +29,21 @@ function ensureCloudflareEnv(): Promise<void> {
 export default {
   async fetch(req: Request): Promise<Response> {
     await ensureCloudflareEnv();
-    return paraglideMiddleware(req, () => handler.fetch(req));
+    const response = await paraglideMiddleware(req, () => handler.fetch(req));
+    const utmSource = new URL(req.url).searchParams.get('utm_source');
+    const existing = getCookieFromHeader(
+      req.headers.get('cookie'),
+      'utm_source'
+    );
+    if (utmSource && !existing) {
+      const sanitized = utmSource.replace(/[^\w.\-]/g, '').slice(0, 100);
+      if (sanitized) {
+        response.headers.append(
+          'Set-Cookie',
+          `utm_source=${sanitized}; Max-Age=2592000; Path=/; SameSite=Lax`
+        );
+      }
+    }
+    return response;
   },
 };

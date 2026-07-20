@@ -333,8 +333,10 @@ export const apikey = table(
       .references(() => user.id, { onDelete: 'cascade' }),
     keyHash: text('key_hash').notNull(),
     keyPrefix: text('key_prefix').notNull(),
+    key: text('key'),
     title: text('title').notNull(),
     status: text('status').notNull(),
+    lastUsedAt: timestamp('last_used_at'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at')
       .$onUpdate(() => new Date())

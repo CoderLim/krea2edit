@@ -361,8 +361,10 @@ export const apikey = table(
       .references(() => user.id, { onDelete: 'cascade' }),
     keyHash: text('key_hash').notNull(),
     keyPrefix: text('key_prefix').notNull(),
+    key: text('key'),
     title: text('title').notNull(),
     status: text('status').notNull(),
+    lastUsedAt: integer('last_used_at', { mode: 'timestamp_ms' }),
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
       .notNull(),

@@ -4,6 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { tDynamic } from '@/core/i18n/dynamic';
 import { apiGet, type PageResult } from '@/lib/api-client';
+import { formatDateTime } from '@/lib/time';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
 import { DataTable, type Column } from '@/components/data-table';
@@ -24,7 +25,7 @@ interface Credit {
   createdAt: string;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 const TABS = ['all', 'grant', 'consume'] as const;
 type Tab = (typeof TABS)[number];
@@ -107,7 +108,7 @@ function CreditsPage() {
       header: m['admin.credits.expires_at'](),
       cell: (c) => (
         <span className="text-muted-foreground text-sm">
-          {c.expiresAt ? new Date(c.expiresAt).toLocaleDateString() : '—'}
+          {c.expiresAt ? formatDateTime(c.expiresAt) : '—'}
         </span>
       ),
     },
@@ -115,7 +116,7 @@ function CreditsPage() {
       header: m['admin.credits.created_at'](),
       cell: (c) => (
         <span className="text-muted-foreground text-sm">
-          {new Date(c.createdAt).toLocaleDateString()}
+          {formatDateTime(c.createdAt)}
         </span>
       ),
     },

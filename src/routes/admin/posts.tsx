@@ -20,6 +20,7 @@ import {
   pageQuery,
   type PageResult,
 } from '@/lib/api-client';
+import { formatDateTime } from '@/lib/time';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
 import { DataTable, type Column } from '@/components/data-table';
@@ -66,7 +67,7 @@ interface CategoryOption {
   slug: string;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 const TABS = ['all', 'published', 'draft'] as const;
 type Tab = (typeof TABS)[number];
 
@@ -223,7 +224,7 @@ function PostsPage() {
       header: m['admin.posts.created_at'](),
       cell: (p) => (
         <span className="text-muted-foreground text-sm">
-          {new Date(p.createdAt).toLocaleDateString()}
+          {formatDateTime(p.createdAt)}
         </span>
       ),
     },

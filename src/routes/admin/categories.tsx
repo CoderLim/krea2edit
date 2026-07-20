@@ -19,6 +19,7 @@ import {
   pageQuery,
   type PageResult,
 } from '@/lib/api-client';
+import { formatDateTime } from '@/lib/time';
 import { m } from '@/paraglide/messages.js';
 import { DataTable, type Column } from '@/components/data-table';
 import { TextField } from '@/components/form-field';
@@ -44,7 +45,7 @@ interface Category {
   createdAt: string;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 const categorySchema = z.object({
   slug: z.string().min(1),
@@ -175,7 +176,7 @@ function CategoriesPage() {
       header: m['admin.categories.created_at'](),
       cell: (c) => (
         <span className="text-muted-foreground text-sm">
-          {new Date(c.createdAt).toLocaleDateString()}
+          {formatDateTime(c.createdAt)}
         </span>
       ),
     },
