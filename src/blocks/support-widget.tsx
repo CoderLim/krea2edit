@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { useSession } from '@/core/auth/client';
 import { Link } from '@/core/i18n/navigation';
 import { apiPost } from '@/lib/api-client';
+import { currentPathWithQuery } from '@/lib/redirect';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
 import { ImageUploader } from '@/components/image-uploader';
@@ -87,7 +88,10 @@ export function SupportWidget() {
               <p className="text-muted-foreground text-sm">
                 {m['common.support.sign_in_notice']()}
               </p>
-              <Link href="/sign-in" className={cn(buttonVariants())}>
+              <Link
+                href={`/sign-in?callbackUrl=${encodeURIComponent(currentPathWithQuery('/'))}`}
+                className={cn(buttonVariants())}
+              >
                 {m['common.support.sign_in']()}
               </Link>
             </div>

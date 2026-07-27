@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Check } from 'lucide-react';
 
 import { apiPost } from '@/lib/api-client';
+import { currentPathWithQuery } from '@/lib/redirect';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
 import { Button } from '@/components/ui/button';
@@ -72,6 +73,8 @@ export function PricingTable({
         credits: plan.credits,
         credits_valid_days: plan.creditsValidDays,
         payment_provider: plan.paymentProvider || 'stripe',
+        // Come back to the page the user paid from.
+        redirect: currentPathWithQuery('/settings/billing'),
       }),
     onSuccess: (data) => {
       if (data?.checkout_url) {

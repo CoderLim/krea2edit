@@ -3,6 +3,8 @@
   "common.metadata.title": "我的应用",
   "common.metadata.description": "快速构建你的 SaaS",
   "common.sign.sign_in_title": "登录",
+  "common.auth_callback.redirecting": "正在跳转…",
+  "common.auth_callback.error": "登录未能完成，请重试。",
   "common.sign.sign_in_description": "欢迎回来",
   "common.sign.sign_up_title": "注册",
   "common.sign.sign_up_description": "免费开始使用",

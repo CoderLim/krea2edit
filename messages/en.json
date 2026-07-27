@@ -3,6 +3,8 @@
   "common.metadata.title": "My App",
   "common.metadata.description": "Ship your SaaS faster",
   "common.sign.sign_in_title": "Sign In",
+  "common.auth_callback.redirecting": "Signing you in…",
+  "common.auth_callback.error": "Could not complete sign-in. Please try again.",
   "common.sign.sign_in_description": "Welcome back",
   "common.sign.sign_up_title": "Sign Up",
   "common.sign.sign_up_description": "Get started for free",

@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import { useSession } from '@/core/auth/client';
 import { useRouter } from '@/core/i18n/navigation';
 import { apiPost } from '@/lib/api-client';
+import { currentPathWithQuery } from '@/lib/redirect';
 import { m } from '@/paraglide/messages.js';
 import { usePublicConfig } from '@/hooks/use-public-config';
 import {
@@ -243,6 +244,8 @@ export function Pricing({ title }: { title?: string } = {}) {
         credits: plan.credits,
         credits_valid_days: plan.creditsValidDays,
         payment_provider: provider,
+        // Come back to the page the user paid from.
+        redirect: currentPathWithQuery('/settings/billing'),
       }),
     onSuccess: (data) => {
       if (!data?.checkout_url) {
@@ -265,10 +268,8 @@ export function Pricing({ title }: { title?: string } = {}) {
 
   async function handleCheckout(plan: PricingPlan) {
     if (!session?.user) {
-      const redirect = encodeURIComponent(
-        typeof window !== 'undefined' ? window.location.pathname : '/pricing'
-      );
-      router.push(`/sign-in?redirect=${redirect}`);
+      const callbackUrl = encodeURIComponent(currentPathWithQuery('/pricing'));
+      router.push(`/sign-in?callbackUrl=${callbackUrl}`);
       return;
     }
 

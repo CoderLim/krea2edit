@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { authClient, signIn, useSession } from '@/core/auth/client';
 import { Link, useRouter } from '@/core/i18n/navigation';
 import { envConfigs } from '@/config';
+import { resolveAfterAuthUrl, safeInternalPath } from '@/lib/redirect';
 import { m } from '@/paraglide/messages.js';
 import { localizeHref } from '@/paraglide/runtime.js';
 import { usePublicConfig } from '@/hooks/use-public-config';
@@ -33,8 +34,9 @@ function SignInPage() {
   const navigatingRef = useRef(false);
   const [error, setError] = useState('');
 
-  // redirect: client protocol, goes through auth-callback
-  // callbackUrl: web page URL, goes directly after login
+  // callbackUrl: internal page path, goes there directly after login.
+  // redirect: either an internal path (same thing) or an app protocol URL like
+  // `myapp://auth/callback`, which detours through /auth-callback for a token.
   const [redirectParam, setRedirectParam] = useState<string | null>(null);
   const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
 
@@ -55,17 +57,13 @@ function SignInPage() {
   }, [sessionPending, session?.user, router]);
 
   // Allow only same-site relative paths, and never an auth page (would loop).
-  const safeCallbackUrl =
-    callbackUrl &&
-    callbackUrl.startsWith('/') &&
-    !callbackUrl.startsWith('//') &&
-    !/^\/(sign-in|sign-up|verify-email)(\/|\?|$)/.test(callbackUrl)
-      ? callbackUrl
-      : null;
+  const safeCallbackUrl = safeInternalPath(callbackUrl);
 
-  const afterLoginUrl = redirectParam
-    ? `/auth-callback?redirect=${encodeURIComponent(redirectParam)}`
-    : safeCallbackUrl || '/settings';
+  const afterLoginUrl = resolveAfterAuthUrl({
+    redirect: redirectParam,
+    callbackUrl,
+    fallback: '/settings',
+  });
 
   // Carry callbackUrl/redirect across to sign-up so the destination survives the switch.
   const switchQuery = (() => {
