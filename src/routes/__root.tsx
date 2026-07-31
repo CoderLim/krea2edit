@@ -17,16 +17,11 @@ import { getQueryClient } from '@/lib/query-client';
 import { getLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
 import { Ads } from '@/components/analytics/ads';
 import { GoogleAnalytics } from '@/components/analytics/google-analytics';
-import { Plausible } from '@/components/analytics/plausible';
 import { CustomerService } from '@/components/customer-service';
 import { GoogleOneTap } from '@/components/google-one-tap';
 import { SandboxPreviewBridge } from '@/components/sandbox-preview-bridge';
 import { Toaster } from '@/components/ui/sonner';
 
-import '@fontsource-variable/inter';
-import '@fontsource/libre-baskerville/400.css';
-import '@fontsource/libre-baskerville/700.css';
-import '@fontsource/libre-baskerville/400-italic.css';
 import '@/styles/globals.css';
 
 // Analytics IDs live in the DB config (1h-cached service). Fetched via a
@@ -56,7 +51,7 @@ const getAnalyticsConfigs = createServerFn().handler(async () => {
 
 export const Route = createRootRoute({
   loader: () => getAnalyticsConfigs(),
-  head: () => {
+  head: ({ loaderData }) => {
     // head() runs on the SSR server AND again on the client during hydration.
     // On the client, app_url falls back to the localhost dev default when
     // VITE_APP_URL wasn't inlined into the client bundle at build — which would
@@ -66,6 +61,8 @@ export const Route = createRootRoute({
       (typeof window !== 'undefined' && window.location?.origin) ||
       envConfigs.app_url ||
       '';
+    const pageviewDomain = loaderData?.plausibleDomain?.trim() || '';
+    const pageviewSrc = loaderData?.plausibleSrc?.trim() || '';
     return {
       meta: [
         { charSet: 'utf-8' },
@@ -74,14 +71,53 @@ export const Route = createRootRoute({
         { name: 'description', content: envConfigs.app_description },
       ],
       links: [
-        { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
-        { rel: 'apple-touch-icon', href: '/favicon.svg' },
+        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+        {
+          rel: 'icon',
+          href: '/favicon-32.png',
+          type: 'image/png',
+          sizes: '32x32',
+        },
+        {
+          rel: 'icon',
+          href: '/favicon-16.png',
+          type: 'image/png',
+          sizes: '16x16',
+        },
+        {
+          rel: 'apple-touch-icon',
+          href: '/apple-touch-icon.png',
+          sizes: '180x180',
+        },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.googleapis.com',
+        },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com',
+          crossOrigin: 'anonymous',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400&display=swap',
+        },
         ...locales.map((loc) => ({
           rel: 'alternate',
           hrefLang: loc,
           href: localizeUrl(`${appUrl}/`, { locale: loc }).href,
         })),
       ],
+      scripts:
+        pageviewDomain && pageviewSrc
+          ? [
+              {
+                src: pageviewSrc,
+                defer: true,
+                'data-domain': pageviewDomain,
+              },
+            ]
+          : [],
     };
   },
   component: RootComponent,
@@ -97,8 +133,9 @@ function RootComponent() {
     <QueryClientProvider client={getQueryClient()}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="system"
-        enableSystem
+        defaultTheme="dark"
+        forcedTheme="dark"
+        enableSystem={false}
         disableTransitionOnChange
       >
         <Outlet />
@@ -107,12 +144,6 @@ function RootComponent() {
         <GoogleOneTap />
         {analytics?.gaId ? (
           <GoogleAnalytics measurementId={analytics.gaId} />
-        ) : null}
-        {analytics?.plausibleDomain || analytics?.plausibleSrc ? (
-          <Plausible
-            domain={analytics.plausibleDomain}
-            src={analytics.plausibleSrc || undefined}
-          />
         ) : null}
         {analytics?.adsenseCode ? <Ads code={analytics.adsenseCode} /> : null}
         <CustomerService

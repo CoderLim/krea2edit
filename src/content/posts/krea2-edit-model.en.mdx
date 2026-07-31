@@ -1,0 +1,102 @@
+export const meta = {
+  title: 'Krea2 Edit Model - Community Identity Editor | Krea2 Edit',
+  description:
+    'Krea2 Edit Model fills the gap—official Krea has no edit LoRA. See how the community identity editor works, key settings, and limits, then try it free online.',
+  created_at: '2026-07-31',
+  author_name: 'Krea2 Edit',
+  author_image: '/logo.webp',
+  image: '/logo-og.png',
+};
+
+Official **Krea** ships Krea 2 as a foundation image model — Medium, Large, and Turbo variants with style references, moodboards, and generative sliders. It does **not** ship a dedicated Krea 2 instruction-edit LoRA that keeps a person’s likeness while you rewrite the scene. That gap is exactly why the community **Krea2 Edit Model** exists, and why [Krea2 Edit](/) embeds the Krea2 Edit Model in the browser.
+
+The public weights live on Hugging Face as [conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit) — an unofficial fine-tune of **Krea 2 Raw**. The card is explicit: not an official Krea product, not affiliated with or endorsed by Krea.ai, Inc. This article breaks down what the Krea2 Edit Model actually does, how it differs from stock Krea 2 generation, and how to run the Krea2 Edit Model without guessing.
+
+## Why official Krea has no Krea2 Edit Model
+
+Krea’s product surface already includes generative editing tools on [krea.ai](https://www.krea.ai/) — region edits, lighting, camera angle, and related workflows. Those are **product features**, not an open **Krea 2 edit LoRA** you can pin in ComfyUI, stack with character adapters, or host on a Space.
+
+Creators who need open weights hit a wall:
+
+- Stock Krea 2 nodes are built for **text-to-image** (and related generative controls), not dual-conditioned instruction editing.
+- Closed editors cannot load arbitrary community LoRAs the way a local graph can.
+- Prompt-only “edit by regenerating the whole image” breaks identity and wardrobe continuity.
+
+The Krea2 Edit Model closes that loop: image in, plain-language instruction in, identity-preserving edit out — on open Krea 2 infrastructure. If you searched for a Krea2 Edit Model specifically because official downloads stop at generation checkpoints, you are in the right place.
+
+## What the Krea2 Edit Model is trained to do
+
+The Krea2 Edit Model targets **instruction-based, identity-preserving** edits on Krea 2 (12.9B single-stream MMDiT). You keep a source; you name only the change; the model is trained to leave the rest alone — including the person.
+
+### Person re-staging with likeness
+
+Classic test: “create a photo of this person at a night market.” Good runs keep face and outfit cues (often down to moles and fabric marks) while fully relighting to the new scene, including new camera angles and poses.
+
+### Local object and attribute edits
+
+Recolor, add, remove, or replace a region with near-pixel preservation elsewhere. The trained **replace** verb helps locality. Still compare against the source — local jobs can occasionally shift grade or touch an unintended edge.
+
+### Two-reference scene + person composites
+
+Scene is always image 1; person is always image 2. That order matches training. Swap them and quality drops sharply. For two people, upstream guidance is to **chain** single-reference inserts instead of forcing both faces in one pass.
+
+### v1.2 capabilities of the Krea2 Edit Model
+
+The recommended Krea2 Edit Model file is `krea2_identity_edit_v1_2.safetensors`. Versus earlier builds it adds a 1024 high-resolution training pass, stronger restage likeness, character reference-sheet workflows, head/face/eye/person swap (partly via stablellama’s MIT swap dataset), outpainting, inpainting, virtual try-on, FIT geometry for mismatched aspect ratios, and the `ref_boost` fidelity dial (~4 is the published strong-likeness start).
+
+Low-VRAM SVD cuts of the Krea2 Edit Model (`r128` ~0.91GB, `r64` ~0.46GB) keep &gt;99% of weight energy per the card — useful on laptop GPUs.
+
+## How the Krea2 Edit Model is conditioned (and why stock nodes fail)
+
+Krea2 Edit Model training used **dual conditioning**: in-context VAE tokens for appearance **plus** image-grounded Qwen3-VL encoding for semantic grounding. Stock Krea 2 nodes do not provide that path.
+
+You need the community node pack [ComfyUI-Krea2Edit](https://github.com/lbouaraba/comfyui-krea2edit) (two shipped workflows). Without those nodes, loading the LoRA alone will not reproduce the Krea2 Edit Model behavior the card describes.
+
+## Recommended settings for the Krea2 Edit Model
+
+Numbers below are from the public model card — use them as defaults in ComfyUI or when a Space exposes matching controls.
+
+| Job type                           | Checkpoint   | Steps | CFG |
+| ---------------------------------- | ------------ | ----- | --- |
+| Add / recolor / restyle / re-stage | Krea 2 Turbo | 8–12  | 1.0 |
+| Removals / large deletions         | Krea 2 Raw   | ~20   | 3.0 |
+
+- **`ref_boost` ≈ 4** — strong likeness; above ~10 starts breaking removals; below 1 loosens creativity.
+- **`grounding_px`** — lower follows the edit more uniformly; higher protects identity. Split/duplicated frames usually mean the value is far above the trained band (v1.1 docs cite 384–768).
+- **Generate ≤ ~2MP** to reduce source bleed or duplication.
+- **LoRA strength 1.0**. At CFG &gt; 1, ground the negative with an empty prompt plus the same image.
+
+## Limits of the Krea2 Edit Model you should expect
+
+Honest limits of the Krea2 Edit Model from the upstream card, not marketing copy:
+
+- Likeness is texture-faithful and proportion-conservative — unusual facial geometry may read like a “close relative.”
+- Removals need the Raw/CFG 3 recipe and still fail sometimes.
+- Outfit swaps are hit-or-miss; reroll or rephrase.
+- Extreme hair or body types may need a subject LoRA stacked on top.
+
+License: Derivative Model under the **Krea 2 Community License**. Commercial use is allowed under the published revenue threshold (model-card summary: under $1M/year); above that, contact Krea. Deployments should moderate content; AI disclosure may apply. The LoRA is SFW-trained — do not create non-consensual or harmful likenesses of real people.
+
+## How to try the Krea2 Edit Model today
+
+1. **Browser (fastest):** open [Krea2 Edit](/#try) — the homepage embeds a Hugging Face Space so you can validate Krea2 Edit Model prompts without installing ComfyUI.
+2. **Local control:** install ComfyUI with native Krea 2 support, add ComfyUI-Krea2Edit, load the Krea2 Edit Model file `krea2_identity_edit_v1_2.safetensors`, run a shipped workflow.
+3. **Iterate:** start with one clear subject, a Turbo-length run, and a single restage or recolor instruction. Log winning Krea2 Edit Model prompts before batching locally.
+
+## FAQ
+
+### Is the Krea2 Edit Model official?
+
+No. Official Krea apps have their own edit surfaces. The Krea2 Edit Model is a community LoRA on Krea 2 Raw. Krea2 Edit the website is a convenience layer around that Krea2 Edit Model release — not affiliated with or endorsed by Krea.ai, Inc.
+
+### Does official Krea provide an equivalent open edit LoRA?
+
+Not as of this writing. Official Krea 2 focuses on foundation generation and in-product tools. Open instruction-edit with identity hold is the community Krea2 Edit Model stack described here.
+
+### Where do I read the source of truth?
+
+- Weights & card: [conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit)
+- Nodes: [ComfyUI-Krea2Edit](https://github.com/lbouaraba/comfyui-krea2edit)
+- Base model family: [Krea 2](https://www.krea.ai/krea-2)
+
+Questions about this site: [support@krea2edit.app](mailto:support@krea2edit.app).

@@ -30,8 +30,23 @@ export const Route = createFileRoute('/blog/$slug')({
     }).href;
     return {
       meta: [
-        { title: `${post.title} | ${envConfigs.app_name}` },
+        { title: post.title },
         { name: 'description', content: post.description },
+        { name: 'robots', content: 'index, follow' },
+        { property: 'og:title', content: post.title },
+        { property: 'og:description', content: post.description },
+        { property: 'og:type', content: 'article' },
+        { property: 'og:url', content: canonical },
+        ...(post.image
+          ? [
+              {
+                property: 'og:image',
+                content: post.image.startsWith('http')
+                  ? post.image
+                  : `${envConfigs.app_url}${post.image}`,
+              },
+            ]
+          : []),
       ],
       links: [{ rel: 'canonical', href: canonical }],
     };

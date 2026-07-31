@@ -1,0 +1,102 @@
+export const meta = {
+  title: 'Krea2 Edit Model - Community Identity Editor | Krea2 Edit',
+  description:
+    'Krea2 Edit Model fills the gap—official Krea has no edit LoRA. See how the community identity editor works, key settings, and limits, then try it free online.',
+  created_at: '2026-07-31',
+  author_name: 'Krea2 Edit',
+  author_image: '/logo.webp',
+  image: '/logo-og.png',
+};
+
+官方 **Krea** 将 Krea 2 作为基础图像模型发布——包含 Medium、Large、Turbo，以及风格参考、情绪板与生成滑条等能力。但它**没有**提供专用的、在改写场景时仍保持人物相似度的 Krea 2 指令编辑 LoRA。社区 **Krea2 Edit Model** 正是为填补这一缺口而生，这也是 [Krea2 Edit](/) 在浏览器中嵌入 Krea2 Edit Model 的原因。
+
+公开权重发布在 Hugging Face：[conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit)——基于 **Krea 2 Raw** 的非官方微调。模型卡写得很清楚：不是官方 Krea 产品，与 Krea.ai, Inc. 无关联、无背书。下文按可验证公开资料说明 Krea2 Edit Model 能做什么、与普通 Krea 2 生成有何不同，以及如何在不靠猜的情况下运行 Krea2 Edit Model。
+
+## 为什么官方没有 Krea2 Edit Model
+
+Krea 产品端在 [krea.ai](https://www.krea.ai/) 已有生成式编辑能力（区域编辑、光照、机位等）。那是**产品功能**，不是你可以在 ComfyUI 中固定版本、叠加角色 LoRA、或挂到 Space 上的开放 **Krea 2 edit LoRA**。
+
+需要开源权重的创作者会撞上这些限制：
+
+- 官方 Krea 2 节点面向 **文生图**（及相关生成控制），而非双条件指令编辑。
+- 闭源在线编辑器无法像本地工作流那样加载任意社区 LoRA。
+- 仅靠「整图重生成」来「编辑」，往往破坏身份与服装连续性。
+
+Krea2 Edit Model 补上这条链路：输入图像 + 自然语言指令 → 身份保持的编辑结果，并跑在开放的 Krea 2 基础设施上。若你正是因为官方下载停在生成 checkpoint 才搜索 Krea2 Edit Model，那你找对地方了。
+
+## Krea2 Edit Model 训练面向的编辑类型
+
+Krea2 Edit Model 面向 Krea 2（12.9B 单流 MMDiT）的**指令式、身份保持**编辑。保留源图；只描述要改的部分；模型被训练为尽量不动其余内容——包括人物。
+
+### 人物重排场景（保留相似度）
+
+经典测试：「拍一张这个人在夜市的照片」。成功样本通常保留面部与服装线索（甚至痣与面料细节），同时把光照与场景完整重做，并支持新机位与姿态。
+
+### 局部物体与属性编辑
+
+局部重上色、增删替换，其余区域接近逐像素保留。训练过的 **replace** 动词有助于局部性。仍建议对照原图——局部任务偶尔会带动色调或误伤边缘。
+
+### 双参考：场景 + 人物合成
+
+场景始终是图 1，人物始终是图 2，顺序与训练一致。对调会明显掉质量。两人同框时，上游建议**串联**单参考插入，而不是一次硬塞两张脸。
+
+### Krea2 Edit Model 的 v1.2 能力
+
+推荐的 Krea2 Edit Model 权重：`krea2_identity_edit_v1_2.safetensors`。相对早期版本增加了 1024 高分辨率训练、更强的重排相似度、角色参考表工作流、头/脸/眼/人物置换（部分基于 stablellama 的 MIT 数据集）、外扩、局部重绘、虚拟试穿、错比例的 FIT 几何，以及 `ref_boost` 保真旋钮（公开工作流约以 4 作为强相似度起点）。
+
+Krea2 Edit Model 的低显存 SVD 变体（`r128` 约 0.91GB，`r64` 约 0.46GB）按模型卡保留超过 99% 权重能量——适合笔记本 GPU。
+
+## 条件机制（为什么原版节点不够）
+
+Krea2 Edit Model 训练使用**双重条件**：上下文 VAE token（外观）+ 以图像为基的 Qwen3-VL 编码（语义 grounding）。原版 Krea 2 节点不提供这条路径。
+
+需要社区节点包 [ComfyUI-Krea2Edit](https://github.com/lbouaraba/comfyui-krea2edit)（附带两套工作流）。没有这些节点，只加载 LoRA 无法复现模型卡描述的 Krea2 Edit Model 行为。
+
+## Krea2 Edit Model 推荐参数
+
+以下数字来自公开模型卡——在 ComfyUI 或 Space 暴露对应控件时可作为默认。
+
+| 任务类型                          | Checkpoint   | Steps | CFG |
+| --------------------------------- | ------------ | ----- | --- |
+| 添加 / 重上色 / 重风格 / 重排场景 | Krea 2 Turbo | 8–12  | 1.0 |
+| 移除 / 大范围删除                 | Krea 2 Raw   | ~20   | 3.0 |
+
+- **`ref_boost` ≈ 4**：强相似度；高于约 10 开始破坏删除；低于 1 更偏创意。
+- **`grounding_px`**：越低越跟编辑指令；越高越护身份。出现「裂图/双图」通常是远高于训练区间（v1.1 文档常见舒适带 384–768）。
+- **生成约 ≤ 2MP**，降低源图渗色或重复。
+- **LoRA 强度 1.0**。CFG &gt; 1 时，负向也要用空提示 + 同一张图做 grounding。
+
+## Krea2 Edit Model 需要预期的局限
+
+来自上游模型卡的 Krea2 Edit Model 诚实限制，而非宣传话术：
+
+- 相似度偏「纹理忠实、比例保守」——极端五官几何可能像「近亲」。
+- 删除需 Raw / CFG 3 配方，仍可能失败。
+- 换装成功率不稳定，需要重抽或改写指令。
+- 极端发型或体型可能需要再叠一层 subject LoRA。
+
+许可：Krea 2 的衍生模型，遵循 **Krea 2 Community License**。在公开营收阈值内允许商用（模型卡摘要：年营收约 100 万美元以下）；超出需联系 Krea。部署应做内容审核；必要时需 AI 披露。该 LoRA 仅 SFW 训练——请勿制作针对真人的非自愿或有害图像。
+
+## 今天如何试用 Krea2 Edit Model
+
+1. **浏览器（最快）：** 打开 [Krea2 Edit](/#try)——首页嵌入 Hugging Face Space，无需先装 ComfyUI 即可验证 Krea2 Edit Model 提示词。
+2. **本地可控：** 安装支持原生 Krea 2 的 ComfyUI，加入 ComfyUI-Krea2Edit，加载 Krea2 Edit Model 文件 `krea2_identity_edit_v1_2.safetensors`，运行附带工作流。
+3. **迭代：** 从清晰单人照片、Turbo 短跑、一条重排或重上色指令开始；先记成功的 Krea2 Edit Model 提示，再本地批量。
+
+## FAQ
+
+### Krea2 Edit Model 是官方的吗？
+
+不是。官方 Krea 应用有自己的编辑界面。Krea2 Edit Model 是基于 Krea 2 Raw 的社区 LoRA。网站 Krea2 Edit 只是该 Krea2 Edit Model 发布的便利入口——与 Krea.ai, Inc. 无关联、无背书。
+
+### 官方有没有等价的开放 edit LoRA？
+
+截至本文写作时没有。官方 Krea 2 侧重基础生成与产品内工具；开放指令编辑 + 身份保持，正是本文所述社区 Krea2 Edit Model 栈。
+
+### 权威来源在哪里？
+
+- 权重与模型卡：[conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit)
+- 节点：[ComfyUI-Krea2Edit](https://github.com/lbouaraba/comfyui-krea2edit)
+- 基础模型系列：[Krea 2](https://www.krea.ai/krea-2)
+
+本站相关问题：[support@krea2edit.app](mailto:support@krea2edit.app)。

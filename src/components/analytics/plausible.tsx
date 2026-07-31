@@ -1,9 +1,6 @@
-// Plausible script — rendered as native <script> elements (not next/script)
-// so the tags land in the SSR HTML directly. next/script in App Router is a
-// Client Component; inside an async Server Component it only emits an RSC
-// reference and the real <script> is injected post-hydration — invisible in
-// View Source and to crawlers. Plain <script async defer> loads in parallel
-// with the HTML and is visible to everyone.
+// Plausible / Pageview-compatible tracker. Rendered as a native <script> so
+// the tag lands in SSR HTML (visible in View Source + crawlers).
+// Matches: <script defer data-domain="..." src="..."></script>
 export function Plausible({
   domain,
   src = 'https://plausible.io/js/script.js',
@@ -12,20 +9,13 @@ export function Plausible({
   src?: string;
 }) {
   if (!src) return null;
+
   return (
-    <>
-      <script
-        id="plausible-loader"
-        data-domain={domain || undefined}
-        src={src}
-        async
-      />
-      <script
-        id="plausible-init"
-        dangerouslySetInnerHTML={{
-          __html: `window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init();`,
-        }}
-      />
-    </>
+    <script
+      id="plausible-loader"
+      defer
+      data-domain={domain || undefined}
+      src={src}
+    />
   );
 }

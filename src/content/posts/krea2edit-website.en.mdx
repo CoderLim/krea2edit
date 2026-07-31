@@ -1,0 +1,107 @@
+export const meta = {
+  title: 'Krea2 Edit Website - Online Editor Hub | Krea2 Edit',
+  description:
+    'Krea2 Edit is your browser hub for community identity edits—live Space, guides, and blog. Not an official Krea.ai product. Open the site and start editing free.',
+  created_at: '2026-07-31',
+  author_name: 'Krea2 Edit',
+  author_image: '/logo.webp',
+  image: '/logo-og.png',
+};
+
+**Krea2 Edit** (https://krea2edit.app) is a small website built around one job: give creators a stable, searchable home for the community identity-edit workflow — without making them dig through Hugging Face discussions, Space URLs, or ComfyUI install notes first.
+
+This page is about the **website itself**: what it is for, what you will find on it, and when bookmarking Krea2 Edit beats opening a raw Space link. It is not a reprint of the homepage how-to, and it is not a model-card deep dive — those live on the [homepage](/) and in [Krea2 Edit Model](/blog/krea2-edit-model).
+
+## What the Krea2 Edit website is (and is not)
+
+Krea2 Edit is a **community front door**. The domain wraps a live Hugging Face Space, short orientation copy, legal pages, and a blog so people who search for the product name land somewhere coherent.
+
+It is **not**:
+
+- An official Krea.ai product or a rebrand of krea.ai
+- A replacement for ComfyUI when you need pinned weights, LoRA stacks, or batch graphs
+- A claim that we train or own the underlying LoRA — credit stays with the public [conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit) release and its authors
+
+Think of Krea2 Edit as the “map + waiting room”: you arrive, try the editor in-place, then decide whether to stay in-browser or graduate to a local stack.
+
+## Who the Krea2 Edit site is for
+
+### Prompt explorers
+
+You want to test wording before downloading multi-gigabyte checkpoints. Krea2 Edit keeps the editor above the fold so you are not forced through a docs maze to reach the tool.
+
+### Teams that share links
+
+A memorable domain (`krea2edit.app`) travels better in Slack than a long `*.hf.space` URL. The site also carries a clear unofficial disclaimer so stakeholders are not confused with Krea’s commercial product.
+
+### Readers who want context without installing anything
+
+Some visitors will never open ComfyUI. For them, Krea2 Edit packages “what this community stack is” next to a working demo — and points to deeper articles when they are ready.
+
+## What you will find on Krea2 Edit
+
+| Area            | Role on the site                                           |
+| --------------- | ---------------------------------------------------------- |
+| Homepage editor | Primary action surface — the Space runs inside the page    |
+| Homepage guide  | Orientation for first-time visitors (intent: use the tool) |
+| [Blog](/blog)   | Longer pieces that should not crowd the homepage           |
+| Privacy / Terms | Trust pages for a real domain and contact email            |
+| Support         | `support@krea2edit.app` for site/Space issues              |
+
+The split is intentional. Homepage copy stays task-oriented. Blog posts (like this one and the [model guide](/blog/krea2-edit-model)) answer navigational and research queries without bloating the first screen.
+
+## Krea2 Edit vs opening the Space directly
+
+You can always use the Space URL alone. Prefer the Krea2 Edit website when you want:
+
+1. **Brand persistence** — one place to return to after the Space owner rotates hosts or versions
+2. **Surrounding context** — legal links, contact, and articles that a bare Space UI does not show
+3. **SEO discoverability** — people searching the product name find a page designed for that query, not only a model repo
+
+Prefer the raw Space (or a fork) when you only care about the Gradio UI and already know the stack.
+
+## Krea2 Edit vs krea.ai vs local ComfyUI
+
+These three solve different problems — mix them on purpose:
+
+| Destination               | Best for                                                   |
+| ------------------------- | ---------------------------------------------------------- |
+| **Krea2 Edit**            | Zero-install trials of the community identity-edit path    |
+| **krea.ai**               | Official Krea products, accounts, and in-app edit surfaces |
+| **Local ComfyUI + nodes** | Production control, LoRA stacking, offline batching        |
+
+Krea2 Edit does not try to recreate krea.ai. It also does not pretend a browser iframe replaces a desk-side graph. The useful habit many creators follow: sketch instructions on Krea2 Edit, then reproduce winners locally with pinned files.
+
+## How we keep the site trustworthy
+
+- **Label the relationship** — unofficial community demo; not endorsed by Krea.ai, Inc.
+- **Point upstream** — model card and node repos remain the source of truth for weights and recipes
+- **Contact path** — site issues go to [support@krea2edit.app](mailto:support@krea2edit.app)
+- **HTTPS + policies** — [Privacy Policy](/privacy-policy) and [Terms of Service](/terms-of-service) sit in the footer
+
+If something on the embedded Space breaks (queue, cold start, version drift), report it — hosted demos depend on Space availability, not on this domain’s origin servers alone.
+
+## Suggested path for new visitors
+
+1. Open [Krea2 Edit](/#try) and run one short restage or recolor — confirm the site works for you.
+2. Skim only what you need on the homepage; skip sections you already know.
+3. Read [Krea2 Edit Model](/blog/krea2-edit-model) when you care why this LoRA exists and how it differs from official Krea downloads.
+4. Move to ComfyUI when you need reproducibility beyond a shared Space.
+
+## FAQ about the Krea2 Edit website
+
+### Is Krea2 Edit free to use?
+
+The public site and embedded demo are free to try. Upstream LoRA license terms still apply if you deploy weights yourself — see the model card and Krea 2 Community License.
+
+### Do I need an account on Krea2 Edit to edit?
+
+No. The homepage editor is usable without signing up. Accounts on this stack are optional for dashboard features later; they are not a gate on the iframe.
+
+### Will the site store my images?
+
+Treat the embedded Space as a third-party hosted demo. For private or commercial pipelines, prefer a local ComfyUI graph you control. Site-level policies are in the Privacy Policy.
+
+### Where should I send feedback?
+
+Site, domain, or embedding issues: [support@krea2edit.app](mailto:support@krea2edit.app). Model training or LoRA bugs belong on the Hugging Face model discussions, not this inbox.
