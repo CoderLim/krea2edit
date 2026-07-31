@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 
+import { localeIntlTags } from '@/config/locale';
 import { baseLocale } from '@/paraglide/runtime.js';
 
 /**
@@ -106,9 +107,12 @@ export function mergePosts(
 }
 
 export function formatPostDate(dateIso: string, locale: string): string {
-  return new Intl.DateTimeFormat(locale === 'zh' ? 'zh-CN' : 'en-US', {
+  const tag = localeIntlTags[locale] ?? locale;
+  const isCjk =
+    locale === 'zh' || locale === 'zh-TW' || locale === 'ja' || locale === 'ko';
+  return new Intl.DateTimeFormat(tag, {
     year: 'numeric',
-    month: locale === 'zh' ? 'long' : 'short',
+    month: isCjk ? 'long' : 'short',
     day: 'numeric',
   }).format(new Date(dateIso));
 }

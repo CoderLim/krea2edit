@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react';
 import { Link } from '@/core/i18n/navigation';
 import { envConfigs } from '@/config';
 import { m } from '@/paraglide/messages.js';
+import { localizeHref } from '@/paraglide/runtime.js';
 import { LocaleSelector } from '@/components/locale-selector';
 
 const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
@@ -12,10 +13,10 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: '/#try', label: m['landing.nav.try']() },
-    { href: '/blog', label: m['landing.nav.blog']() },
-    { href: '/#how-to', label: m['landing.nav.how']() },
-    { href: '/#faq', label: m['landing.nav.faq']() },
+    { href: localizeHref('/#try'), label: m['landing.nav.try']() },
+    { href: localizeHref('/blog'), label: m['landing.nav.blog']() },
+    { href: localizeHref('/#how-to'), label: m['landing.nav.how']() },
+    { href: localizeHref('/#faq'), label: m['landing.nav.faq']() },
   ];
 
   return (

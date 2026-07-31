@@ -1,0 +1,107 @@
+export const meta = {
+  title: 'Krea2 Edit Website - 線上編輯器入口 | Krea2 Edit',
+  description:
+    'Krea2 Edit 是社群 identity edit 的瀏覽器入口：即時 Space、指南與部落格。非官方 Krea.ai 產品。開啟網站即可免費開始編輯。',
+  created_at: '2026-07-31',
+  author_name: 'Krea2 Edit',
+  author_image: '/logo.webp',
+  image: '/logo-og.png',
+};
+
+**Krea2 Edit**（https://krea2edit.app）是圍繞單一目標搭建的小站：為創作者提供穩定、可搜尋的入口，進入社群 identity-edit 工作流——而不必先在 Hugging Face 討論區、Space 長連結或 ComfyUI 安裝說明裡打轉。
+
+本文介紹的是 **網站本身**：它為誰服務、頁面上有什麼、以及什麼時候收藏 Krea2 Edit 比直接打開 Space 更合適。它不是首頁操作指南的重印，也不是模型卡深挖——那些分別在 [首頁](/) 與 [Krea2 Edit Model](/blog/krea2-edit-model)。
+
+## Krea2 Edit 網站是什麼（以及不是什麼）
+
+Krea2 Edit 是一個**社群前門**。網域把可用的 Hugging Face Space、簡短導讀、法律頁面與部落格收在一起，讓搜產品名的人落在一個說得清的地方。
+
+它**不是**：
+
+- 官方 Krea.ai 產品，也不是 krea.ai 的換皮
+- 在你需要固定權重、疊加 LoRA 或批次出圖時對 ComfyUI 的替代品
+- 聲稱我們訓練或擁有底層 LoRA——署名仍歸公開倉庫 [conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit) 及其作者
+
+把 Krea2 Edit 想成「地圖 + 等候室」：到站、頁內試用編輯器，再決定繼續留在瀏覽器，還是遷到本地工作流。
+
+## 誰適合把 Krea2 Edit 加入書籤
+
+### 提示詞試探者
+
+想先驗證措辭，再下載數 GB 的 checkpoint。Krea2 Edit 把編輯器放在首屏，不必穿過文件迷宮才能摸到工具。
+
+### 需要分享連結的團隊
+
+好記的網域（`krea2edit.app`）比一長串 `*.hf.space` 更適合丟進 Slack。站點也明確標註非官方，避免被誤認為 Krea 商業產品。
+
+### 只想看懂、不打算裝環境的讀者
+
+有人永遠不會打開 ComfyUI。對他們來說，Krea2 Edit 把「這套社群棧是什麼」放在可用演示旁邊，並在需要時指向更深的文章。
+
+## 在 Krea2 Edit 上你會看到什麼
+
+| 區域            | 在站點裡的角色                                |
+| --------------- | --------------------------------------------- |
+| 首頁編輯器      | 主操作面——Space 嵌在頁面裡                    |
+| 首頁導讀        | 給首次訪客的定向說明（意圖：用工具）          |
+| [部落格](/blog) | 不宜擠占首屏的長文                            |
+| Privacy / Terms | 真實網域與聯絡信箱所需的信任頁                |
+| 支援            | `support@krea2edit.app` 處理站點 / Space 問題 |
+
+分工是刻意的：首頁偏任務；部落格（例如本文與 [模型指南](/blog/krea2-edit-model)）回答導航型與調研型搜尋，而不把首屏撐爆。
+
+## Krea2 Edit 與直接打開 Space
+
+你隨時可以只用 Space 連結。更適合用 Krea2 Edit 網站的情況：
+
+1. **品牌可回訪**——Space 主機或版本輪換後，仍有一個固定入口
+2. **周邊上下文**——法律連結、聯絡方式、文章，是裸 Space UI 沒有的
+3. **可發現性**——搜產品名時落到為該查詢設計的頁面，而不只是模型倉庫
+
+若你只關心 Gradio 介面且已熟悉整套棧，直接用 Space（或 fork）即可。
+
+## Krea2 Edit、krea.ai 與本地 ComfyUI
+
+三者解決不同問題——刻意混用：
+
+| 目的地                  | 最適合                                |
+| ----------------------- | ------------------------------------- |
+| **Krea2 Edit**          | 對社群 identity-edit 路徑的零安裝試用 |
+| **krea.ai**             | 官方產品、帳號與應用內編輯            |
+| **本地 ComfyUI + 節點** | 生產可控、LoRA 疊加、離線批次         |
+
+Krea2 Edit 不試圖複刻 krea.ai，也不假裝瀏覽器 iframe 能替代桌面工作流。許多創作者的實用習慣是：在 Krea2 Edit 上草擬指令，再用固定檔案在本地複現贏家提示。
+
+## 我們如何讓站點可信
+
+- **標明關係**——非官方社群演示；未經 Krea.ai, Inc. 背書
+- **指向上游**——權重與配方仍以模型卡與節點倉庫為準
+- **聯絡路徑**——站點問題發往 [support@krea2edit.app](mailto:support@krea2edit.app)
+- **HTTPS + 政策**——頁尾有 [Privacy Policy](/privacy-policy) 與 [Terms of Service](/terms-of-service)
+
+若嵌入的 Space 出問題（排隊、冷啟動、版本漂移），請回報——託管演示依賴 Space 可用性，而不只是本網域源站。
+
+## 新訪客建議路徑
+
+1. 打開 [Krea2 Edit](/#try)，跑一條短 restage 或 recolor——確認站點對你可用。
+2. 首頁只掃你需要的部分；已知內容可跳過。
+3. 想弄清「為何有這個 LoRA、與官方下載有何不同」時，讀 [Krea2 Edit Model](/blog/krea2-edit-model)。
+4. 需要超越共享 Space 的可複現性時，遷到 ComfyUI。
+
+## 關於 Krea2 Edit 網站的 FAQ
+
+### Krea2 Edit 免費嗎？
+
+公開站點與嵌入演示可免費試用。若你自行部署權重，仍須遵守上游 LoRA 許可——見模型卡與 Krea 2 Community License。
+
+### 編輯需要註冊帳號嗎？
+
+不需要。首頁編輯器無需註冊即可使用。本站帳號體系面向後續儀表板能力，並不擋住 iframe。
+
+### 站點會保存我的圖片嗎？
+
+把嵌入的 Space 視為第三方託管演示。涉及隱私或商用流水線時，優先使用你可控的本地 ComfyUI。站點層面政策見 Privacy Policy。
+
+### 回饋發到哪裡？
+
+站點、網域或嵌入問題：[support@krea2edit.app](mailto:support@krea2edit.app)。模型訓練或 LoRA bug 請到 Hugging Face 模型討論區，而不是這個信箱。

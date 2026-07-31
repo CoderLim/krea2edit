@@ -1,4 +1,5 @@
 import { Link } from '@/core/i18n/navigation';
+import { m } from '@/paraglide/messages.js';
 
 const HF_MODEL = 'https://huggingface.co/conradlocke/krea2-identity-edit';
 const COMFY_NODES = 'https://github.com/lbouaraba/comfyui-krea2edit';
@@ -12,51 +13,72 @@ const SPACE = 'https://coderlim-krea2-identity-edit.hf.space';
  * taxonomy, dials, browser-vs-local comparison, FAQ.
  */
 export function SeoGuide() {
+  const jobs = [
+    {
+      n: '01',
+      tag: m['landing.seo.restage'](),
+      title: m['landing.seo.restage_title'](),
+      body: m['landing.seo.restage_body'](),
+      alt: m['landing.seo.restage_alt'](),
+      src: '/imgs/edit-jobs/re-staging-with-likeness.webp',
+    },
+    {
+      n: '02',
+      tag: m['landing.seo.local'](),
+      title: m['landing.seo.local_title'](),
+      body: m['landing.seo.local_body'](),
+      alt: m['landing.seo.local_alt'](),
+      src: '/imgs/edit-jobs/local-object-edit.webp',
+    },
+    {
+      n: '03',
+      tag: m['landing.seo.composite'](),
+      title: m['landing.seo.composite_title'](),
+      body: m['landing.seo.composite_body'](),
+      alt: m['landing.seo.composite_alt'](),
+      src: '/imgs/edit-jobs/two-reference-scene.webp',
+    },
+  ] as const;
+
   return (
     <article className="relative z-10 border-t border-white/8 bg-[#0c0c0e]">
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-20">
         <p className="text-foreground/90 text-lg leading-relaxed">
-          <strong className="text-white">Krea2 Edit</strong> is the browser
-          entry point for instruction-based, identity-preserving image edits on
-          the open Krea 2 stack. Upload a source photo, describe the change in
-          plain English, and regenerate only what you asked for — face, outfit
-          cues, and unmentioned regions stay put. The live panel above embeds a
-          Hugging Face Space so you can validate prompts before installing
-          ComfyUI or downloading LoRA weights.
+          <strong className="text-white">Krea2 Edit</strong>{' '}
+          {m['landing.seo.intro_1']()}
         </p>
         <p className="text-muted-foreground mt-4 leading-relaxed">
-          This Krea2 Edit site is a community convenience layer, not an official
-          Krea.ai product. Under the hood it relies on the unofficial LoRA{' '}
+          {m['landing.seo.intro_2_before']()}{' '}
           <a
             href={HF_MODEL}
             target="_blank"
             rel="noopener noreferrer"
-            title="Krea 2 Identity Edit LoRA on Hugging Face"
+            title={m['landing.seo.hf_model_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
             conradlocke/krea2-identity-edit
           </a>{' '}
-          (a fine-tune of Krea 2 Raw) and the matching{' '}
+          {m['landing.seo.intro_2_mid_1']()}{' '}
           <a
             href={COMFY_NODES}
             target="_blank"
             rel="noopener noreferrer"
-            title="ComfyUI-Krea2Edit node pack on GitHub"
+            title={m['landing.seo.comfy_nodes_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
             ComfyUI-Krea2Edit
           </a>{' '}
-          dual-conditioning nodes. Official Krea 2 foundation-model docs live at{' '}
+          {m['landing.seo.intro_2_mid_2']()}{' '}
           <a
             href={KREA2_PAGE}
             target="_blank"
             rel="noopener noreferrer"
-            title="Official Krea 2 foundation model page"
+            title={m['landing.seo.krea_page_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
             krea.ai/krea-2
           </a>
-          .
+          {m['landing.seo.intro_2_after']()}
         </p>
 
         {/* —— How-to —— */}
@@ -64,12 +86,10 @@ export function SeoGuide() {
           id="how-to"
           className="mt-14 font-serif text-2xl font-semibold tracking-tight sm:text-[1.65rem]"
         >
-          How to use Krea2 Edit in the browser
+          {m['landing.seo.how_to_title']()}
         </h2>
         <p className="text-muted-foreground mt-3 leading-relaxed">
-          Search intent for Krea2 Edit is transactional: people want a working
-          editor, not a history lesson. Follow this loop against the embedded
-          Space (or open it full-screen if the iframe is queued).
+          {m['landing.seo.how_to_intro']()}
         </p>
 
         <ol className="mt-8 space-y-6">
@@ -79,14 +99,10 @@ export function SeoGuide() {
             </span>
             <div>
               <h3 className="font-serif text-lg font-semibold">
-                Drop a clear single-subject photo
+                {m['landing.seo.step_1_title']()}
               </h3>
               <p className="text-muted-foreground mt-1.5 leading-relaxed">
-                Sharp faces and readable outfits transfer better on Krea2 Edit.
-                The published LoRA guidance prefers generating at or under about
-                2 megapixels; oversized sources tend to bleed or duplicate
-                detail. Avoid heavily compressed social-media crops when
-                likeness matters.
+                {m['landing.seo.step_1_body']()}
               </p>
             </div>
           </li>
@@ -96,15 +112,10 @@ export function SeoGuide() {
             </span>
             <div>
               <h3 className="font-serif text-lg font-semibold">
-                Write one concrete instruction verb
+                {m['landing.seo.step_2_title']()}
               </h3>
               <p className="text-muted-foreground mt-1.5 leading-relaxed">
-                Examples that match the training card: “create a photo of this
-                person at a night market,” “recolor the jacket to rust orange,”
-                “replace the coffee cup with a ceramic bowl.” Vague wishes like
-                “make it better” waste a queue slot. Leave everything you want
-                untouched out of the sentence — Krea2 Edit is trained to
-                preserve what you did not name.
+                {m['landing.seo.step_2_body']()}
               </p>
             </div>
           </li>
@@ -114,19 +125,14 @@ export function SeoGuide() {
             </span>
             <div>
               <h3 className="font-serif text-lg font-semibold">
-                Generate, compare, then dial likeness
+                {m['landing.seo.step_3_title']()}
               </h3>
               <p className="text-muted-foreground mt-1.5 leading-relaxed">
-                Start with the Turbo-style short run the model card recommends
-                for most jobs (about 8–12 steps, CFG 1.0). If the face drifts,
-                raise reference fidelity carefully (the v1.2{' '}
+                {m['landing.seo.step_3_before_code']()}{' '}
                 <code className="bg-muted rounded px-1.5 py-0.5 text-sm">
                   ref_boost
                 </code>{' '}
-                dial starts near 4 on published workflows). If a deletion fails,
-                switch to the Raw recipe (~20 steps, CFG 3.0) and expect
-                occasional re-renders instead of clean removals — that limit is
-                documented upstream, not a Space bug.
+                {m['landing.seo.step_3_after_code']()}
               </p>
             </div>
           </li>
@@ -134,89 +140,14 @@ export function SeoGuide() {
 
         {/* —— Capabilities —— */}
         <h2 className="mt-14 font-serif text-2xl font-semibold tracking-tight sm:text-[1.65rem]">
-          Edit jobs Krea2 Edit is trained to handle
+          {m['landing.seo.jobs_title']()}
         </h2>
         <p className="text-muted-foreground mt-3 leading-relaxed">
-          The Hugging Face card groups skills by outcome. Use this taxonomy when
-          you decide whether hosted Krea2 Edit is enough, or whether you need a
-          local graph with stacked character LoRAs.
+          {m['landing.seo.jobs_intro']()}
         </p>
 
         <div className="mt-8 space-y-5">
-          {(
-            [
-              {
-                n: '01',
-                tag: 'Restage',
-                title: 'Person re-staging with likeness',
-                body: (
-                  <>
-                    Keep the same face and outfit cues (down to moles and fabric
-                    marks on good references) while changing scene, lighting,
-                    pose, or camera. Night-market restages are a reliable smoke
-                    test: if identity holds after a full relight, your prompt
-                    wording is on track for other Krea2 Edit restyles.
-                  </>
-                ),
-                src: '/imgs/edit-jobs/re-staging-with-likeness.webp',
-                alt: 'Krea2 Edit person re-staging: same likeness moved from indoor daylight to a night market',
-              },
-              {
-                n: '02',
-                tag: 'Local',
-                title: 'Local object and attribute edits',
-                body: (
-                  <>
-                    Recolor, add, remove, or replace a region while the rest of
-                    the frame stays near the source — a classic Krea2 Edit local
-                    job. The trained “replace” verb helps locality. Still
-                    compare against the original — local jobs can occasionally
-                    shift grade or touch an unintended edge, especially on busy
-                    backgrounds.
-                  </>
-                ),
-                src: '/imgs/edit-jobs/local-object-edit.webp',
-                alt: 'Krea2 Edit local object edits: jacket, mug, and bag changed while identity stays fixed',
-              },
-              {
-                n: '03',
-                tag: 'Composite',
-                title: 'Two-reference scene + person composites',
-                body: (
-                  <>
-                    Feed a scene as image 1 and a person as image 2 inside Krea2
-                    Edit. That order matches training; swapping them sharply
-                    degrades results. For two people, upstream guidance is to
-                    chain single-reference inserts rather than force both faces
-                    in one pass (faces otherwise drift toward each other).
-                  </>
-                ),
-                src: '/imgs/edit-jobs/two-reference-scene.webp',
-                alt: 'Krea2 Edit two-reference composite: rooftop scene plus person reference merged into one shot',
-              },
-              {
-                n: '04',
-                tag: 'v1.2',
-                title: 'v1.2 extras: sheets, swaps, inpaint, try-on',
-                body: (
-                  <>
-                    The recommended weight{' '}
-                    <code className="bg-muted rounded px-1.5 py-0.5 text-sm">
-                      krea2_identity_edit_v1_2.safetensors
-                    </code>{' '}
-                    adds character reference-sheet workflows,
-                    head/face/eye/person swap (trained partly on stablellama’s
-                    MIT swap dataset), outpainting, inpainting, and virtual
-                    try-on, plus FIT geometry so mismatched aspect ratios no
-                    longer stretch. Confirm the Space’s pinned version before
-                    you compare sessions — hosted demos can lag the latest card.
-                  </>
-                ),
-                src: '/imgs/edit-jobs/inpaint-try-on.webp',
-                alt: 'Krea2 Edit v1.2 extras UI showing inpaint and try-on tools with before-after slider',
-              },
-            ] as const
-          ).map((job) => (
+          {jobs.map((job) => (
             <article
               key={job.n}
               className="group overflow-hidden rounded-xl border border-white/8 bg-white/[0.03] transition-[border-color,background-color] duration-300 hover:border-white/14 hover:bg-white/[0.045]"
@@ -252,16 +183,49 @@ export function SeoGuide() {
               </div>
             </article>
           ))}
+          <article className="group overflow-hidden rounded-xl border border-white/8 bg-white/[0.03] transition-[border-color,background-color] duration-300 hover:border-white/14 hover:bg-white/[0.045]">
+            <figure className="relative overflow-hidden border-b border-white/8">
+              <img
+                src="/imgs/edit-jobs/inpaint-try-on.webp"
+                alt={m['landing.seo.v12_alt']()}
+                width={1672}
+                height={941}
+                loading="lazy"
+                decoding="async"
+                className="aspect-[16/9] h-auto w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0c0c0e]/70 to-transparent"
+              />
+              <span className="absolute top-3 left-3 font-mono text-[11px] tracking-[0.14em] text-white/75 tabular-nums sm:top-3.5 sm:left-3.5">
+                04
+              </span>
+              <span className="absolute top-3 right-3 rounded-md bg-black/55 px-2 py-0.5 font-mono text-[10px] tracking-[0.12em] text-white/80 uppercase ring-1 ring-white/12 backdrop-blur-sm sm:top-3.5 sm:right-3.5">
+                v1.2
+              </span>
+            </figure>
+            <div className="p-4 sm:p-5">
+              <h3 className="font-serif text-lg font-semibold tracking-tight">
+                {m['landing.seo.v12_title']()}
+              </h3>
+              <p className="text-muted-foreground mt-2 text-[0.95rem] leading-relaxed">
+                {m['landing.seo.v12_before_code']()}{' '}
+                <code className="bg-muted rounded px-1.5 py-0.5 text-sm">
+                  krea2_identity_edit_v1_2.safetensors
+                </code>{' '}
+                {m['landing.seo.v12_after_code']()}
+              </p>
+            </div>
+          </article>
         </div>
 
         {/* —— Settings —— */}
         <h2 className="mt-14 font-serif text-2xl font-semibold tracking-tight sm:text-[1.65rem]">
-          Settings that change Krea2 Edit results
+          {m['landing.seo.settings_title']()}
         </h2>
         <p className="text-muted-foreground mt-3 leading-relaxed">
-          Numbers below come from the public model card and ComfyUI-Krea2Edit
-          changelog — use them as defaults when Krea2 Edit exposes matching
-          controls, or when you graduate to a local workflow.
+          {m['landing.seo.settings_intro']()}
         </p>
 
         <div className="mt-6 overflow-x-auto">
@@ -269,13 +233,13 @@ export function SeoGuide() {
             <thead>
               <tr className="bg-white/[0.06]">
                 <th className="text-foreground border border-white/10 px-3 py-2.5 text-left font-semibold">
-                  Job type
+                  {m['landing.seo.table_job_type']()}
                 </th>
                 <th className="text-foreground border border-white/10 px-3 py-2.5 text-left font-semibold">
-                  Checkpoint
+                  {m['landing.seo.table_checkpoint']()}
                 </th>
                 <th className="text-foreground border border-white/10 px-3 py-2.5 text-left font-semibold">
-                  Steps
+                  {m['landing.seo.table_steps']()}
                 </th>
                 <th className="text-foreground border border-white/10 px-3 py-2.5 text-left font-semibold">
                   CFG
@@ -285,7 +249,7 @@ export function SeoGuide() {
             <tbody>
               <tr>
                 <td className="text-muted-foreground border border-white/10 px-3 py-2.5">
-                  Add / recolor / restyle / re-stage
+                  {m['landing.seo.table_turbo_job']()}
                 </td>
                 <td className="text-muted-foreground border border-white/10 px-3 py-2.5">
                   Krea 2 Turbo
@@ -299,7 +263,7 @@ export function SeoGuide() {
               </tr>
               <tr>
                 <td className="text-muted-foreground border border-white/10 px-3 py-2.5">
-                  Removals / large deletions
+                  {m['landing.seo.table_raw_job']()}
                 </td>
                 <td className="text-muted-foreground border border-white/10 px-3 py-2.5">
                   Krea 2 Raw
@@ -317,55 +281,49 @@ export function SeoGuide() {
 
         <ul className="text-muted-foreground mt-5 list-disc space-y-2 pl-5 leading-relaxed">
           <li>
-            <strong className="text-foreground">ref_boost ≈ 4</strong> — strong
-            likeness starting point on v1.2 nodes; above ~10 starts breaking
-            removals; below 1 loosens creativity.
+            <strong className="text-foreground">ref_boost ≈ 4</strong>{' '}
+            {m['landing.seo.ref_boost_note']()}
           </li>
           <li>
-            <strong className="text-foreground">grounding_px</strong> — lower
-            follows the edit more uniformly; higher protects identity. Duplicate
-            “split picture” frames usually mean the value is far above the
-            trained range (v1.1 docs cite 384–768 as the comfort band).
+            <strong className="text-foreground">grounding_px</strong>{' '}
+            {m['landing.seo.grounding_note']()}
           </li>
           <li>
-            <strong className="text-foreground">LoRA strength 1.0</strong> —
-            published default. At CFG above 1, ground the negative with an empty
-            prompt plus the same image.
+            <strong className="text-foreground">LoRA strength 1.0</strong>{' '}
+            {m['landing.seo.lora_strength_note']()}
           </li>
           <li>
-            Low-VRAM SVD cuts of v1.2 (
+            {m['landing.seo.low_vram_before']()}{' '}
             <code className="bg-muted rounded px-1 text-sm">r128</code> ~
             0.91&nbsp;GB,{' '}
             <code className="bg-muted rounded px-1 text-sm">r64</code> ~
-            0.46&nbsp;GB) retain &gt;99% of weight energy per the card — useful
-            when you leave browser Krea2 Edit for a laptop GPU.
+            0.46&nbsp;GB) {m['landing.seo.low_vram_after']()}
           </li>
         </ul>
 
         {/* —— Comparison —— */}
         <h2 className="mt-14 font-serif text-2xl font-semibold tracking-tight sm:text-[1.65rem]">
-          Browser Krea2 Edit vs local ComfyUI
+          {m['landing.seo.comparison_title']()}
         </h2>
         <p className="text-muted-foreground mt-3 leading-relaxed">
-          Pick the path that matches your constraint — queue time and zero
-          install versus pinned weights and LoRA stacking.
+          {m['landing.seo.comparison_intro']()}
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <div className="rounded-xl border border-white/8 bg-white/[0.03] p-5">
             <h3 className="font-serif text-base font-semibold text-white">
-              Hosted Space (this page)
+              {m['landing.seo.hosted_title']()}
             </h3>
             <ul className="text-muted-foreground mt-3 list-disc space-y-2 pl-4 text-sm leading-relaxed">
-              <li>No checkpoint download; try Krea2 Edit in minutes</li>
-              <li>Good for prompt R&amp;D and client demos on Krea2 Edit</li>
-              <li>Depends on Space uptime and shared GPU queues</li>
+              <li>{m['landing.seo.hosted_item_1']()}</li>
+              <li>{m['landing.seo.hosted_item_2']()}</li>
+              <li>{m['landing.seo.hosted_item_3']()}</li>
               <li>
-                Open full-screen:{' '}
+                {m['landing.seo.open_fullscreen']()}{' '}
                 <a
                   href={SPACE}
                   target="_blank"
                   rel="noopener noreferrer"
-                  title="Krea2 Edit Hugging Face Space"
+                  title={m['landing.seo.space_title']()}
                   className="text-primary underline-offset-2 hover:underline"
                 >
                   hf.space
@@ -375,19 +333,19 @@ export function SeoGuide() {
           </div>
           <div className="rounded-xl border border-white/8 bg-white/[0.03] p-5">
             <h3 className="font-serif text-base font-semibold text-white">
-              Local ComfyUI-Krea2Edit
+              {m['landing.seo.local_title_comparison']()}
             </h3>
             <ul className="text-muted-foreground mt-3 list-disc space-y-2 pl-4 text-sm leading-relaxed">
-              <li>Pin v1.2 weights and FIT / ref_boost node versions</li>
-              <li>Stack character, body, or style LoRAs on top</li>
-              <li>Needs native Krea 2 + Qwen3-VL encoder support</li>
+              <li>{m['landing.seo.local_item_1']()}</li>
+              <li>{m['landing.seo.local_item_2']()}</li>
+              <li>{m['landing.seo.local_item_3']()}</li>
               <li>
-                Nodes:{' '}
+                {m['landing.seo.nodes_label']()}{' '}
                 <a
                   href={COMFY_NODES}
                   target="_blank"
                   rel="noopener noreferrer"
-                  title="ComfyUI-Krea2Edit GitHub repository"
+                  title={m['landing.seo.comfy_repo_title']()}
                   className="text-primary underline-offset-2 hover:underline"
                 >
                   github.com/lbouaraba/comfyui-krea2edit
@@ -397,72 +355,59 @@ export function SeoGuide() {
           </div>
         </div>
         <p className="text-muted-foreground mt-4 leading-relaxed">
-          A practical workflow many creators use: prototype copy on Krea2 Edit
-          here, log the winning instruction + seed notes, then reproduce locally
-          for batch frames. Closed web editors cannot stack arbitrary community
-          LoRAs the same way — that composability is why open Krea 2 + this LoRA
-          exists.
+          {m['landing.seo.workflow_note']()}
         </p>
 
         <h3 className="mt-8 font-serif text-lg font-semibold">
-          Limits, license, and responsible use of Krea2 Edit
+          {m['landing.seo.limits_title']()}
         </h3>
         <p className="text-muted-foreground mt-2 leading-relaxed">
-          Likeness on Krea2 Edit is described upstream as texture-faithful and
-          proportion-conservative: skin and lighting often transfer well, while
-          strongly unusual facial geometry may read like a close relative.
-          Outfit swaps are hit-or-miss; removals need the Raw recipe and still
-          fail sometimes. Extreme hair or body types may need a subject LoRA on
-          top.
+          {m['landing.seo.limits_body']()}
         </p>
         <p className="text-muted-foreground mt-4 leading-relaxed">
-          Weights are a Derivative Model under the{' '}
+          {m['landing.seo.license_before']()}{' '}
           <a
             href="https://www.krea.ai/krea-2-open-source"
             target="_blank"
             rel="noopener noreferrer"
-            title="Krea 2 open-source and community license information"
+            title={m['landing.seo.license_link_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
             Krea 2 Community License
           </a>
-          . Commercial use is allowed under the published revenue threshold
-          (model-card summary: under $1M/year); above that, contact Krea for
-          enterprise terms. Deployments should moderate content; AI disclosure
-          may apply. The LoRA is SFW-trained — do not create non-consensual or
-          harmful likenesses of real people. Read our{' '}
+          {m['landing.seo.license_after']()}{' '}
           <Link
             href="/privacy-policy"
-            title="Krea2 Edit privacy policy"
+            title={m['landing.seo.privacy_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
-            Privacy Policy
+            {m['landing.seo.privacy_label']()}
           </Link>{' '}
-          and{' '}
+          {m['landing.seo.license_and']()}{' '}
           <Link
             href="/terms-of-service"
-            title="Krea2 Edit terms of service"
+            title={m['landing.seo.terms_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
-            Terms of Service
+            {m['landing.seo.terms_label']()}
           </Link>
-          , or read the deep dive on the{' '}
+          {m['landing.seo.license_or']()}{' '}
           <Link
             href="/blog/krea2-edit-model"
-            title="Krea2 Edit Model community guide"
+            title={m['landing.seo.model_guide_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
-            Krea2 Edit Model
+            {m['landing.seo.model_guide_label']()}
           </Link>
-          . Email{' '}
+          {m['landing.seo.email_before']()}{' '}
           <a
             href="mailto:support@krea2edit.app"
-            title="Email Krea2 Edit support"
+            title={m['landing.seo.email_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
             support@krea2edit.app
           </a>
-          .
+          {m['landing.seo.email_after']()}
         </p>
 
         {/* —— FAQ —— */}
@@ -470,51 +415,43 @@ export function SeoGuide() {
           id="faq"
           className="mt-14 font-serif text-2xl font-semibold tracking-tight sm:text-[1.65rem]"
         >
-          FAQ about Krea2 Edit
+          {m['landing.seo.faq_title']()}
         </h2>
 
         <h3 className="mt-8 font-serif text-lg font-semibold">
-          Is Krea2 Edit an official Krea feature?
+          {m['landing.seo.faq_1_question']()}
         </h3>
         <p className="text-muted-foreground mt-2 leading-relaxed">
-          No. Official Krea apps ship their own edit surfaces. This Krea2 Edit
-          page wraps a community LoRA and Hugging Face Space. It is not
-          affiliated with or endorsed by Krea.ai, Inc.
+          {m['landing.seo.faq_1_answer']()}
         </p>
 
         <h3 className="mt-8 font-serif text-lg font-semibold">
-          Which weight should I assume the Space uses?
+          {m['landing.seo.faq_2_question']()}
         </h3>
         <p className="text-muted-foreground mt-2 leading-relaxed">
-          Prefer v1.2 when available — it is the recommended build on the model
-          card. Always check the Space README or UI footer for the exact
-          filename before A/B testing Krea2 Edit across days.
+          {m['landing.seo.faq_2_answer']()}
         </p>
 
         <h3 className="mt-8 font-serif text-lg font-semibold">
-          Can I run the same stack offline after trying Krea2 Edit?
+          {m['landing.seo.faq_3_question']()}
         </h3>
         <p className="text-muted-foreground mt-2 leading-relaxed">
-          Yes. Install ComfyUI with native Krea 2 support, add the
-          ComfyUI-Krea2Edit pack, load the LoRA, and open a shipped workflow.
-          That path is the full twin of the online preview.
+          {m['landing.seo.faq_3_answer']()}
         </p>
 
         <h3 className="mt-8 font-serif text-lg font-semibold">
-          What should I try first?
+          {m['landing.seo.faq_4_question']()}
         </h3>
         <p className="text-muted-foreground mt-2 leading-relaxed">
-          One clear subject, a Turbo-length run, and a single restage or recolor
-          instruction — the safest first Krea2 Edit session. Save prompts that
-          work. When you need an account-backed dashboard later, you can{' '}
+          {m['landing.seo.faq_4_before_link']()}{' '}
           <Link
             href="/sign-up"
-            title="Create a Krea2 Edit account"
+            title={m['landing.seo.signup_title']()}
             className="text-primary font-medium underline-offset-2 hover:underline"
           >
-            create an account
+            {m['landing.seo.signup_label']()}
           </Link>{' '}
-          — the editor above stays usable without signing in.
+          {m['landing.seo.faq_4_after_link']()}
         </p>
       </div>
     </article>

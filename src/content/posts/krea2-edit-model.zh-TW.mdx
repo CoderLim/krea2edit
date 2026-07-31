@@ -1,0 +1,102 @@
+export const meta = {
+  title: 'Krea2 Edit Model - 社群 Identity 編輯器 | Krea2 Edit',
+  description:
+    'Krea2 Edit Model 填補官方 Krea 沒有 edit LoRA 的缺口。了解社群 identity 編輯器如何運作、關鍵設定與限制，然後線上免費試用。',
+  created_at: '2026-07-31',
+  author_name: 'Krea2 Edit',
+  author_image: '/logo.webp',
+  image: '/logo-og.png',
+};
+
+官方 **Krea** 將 Krea 2 作為基礎影像模型發布——包含 Medium、Large、Turbo，以及風格參考、情緒板與生成滑桿等能力。但它**沒有**提供專用的、在改寫場景時仍保持人物相似度的 Krea 2 指令編輯 LoRA。社群 **Krea2 Edit Model** 正是為填補這一缺口而生，這也是 [Krea2 Edit](/) 在瀏覽器中嵌入 Krea2 Edit Model 的原因。
+
+公開權重發布在 Hugging Face：[conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit)——基於 **Krea 2 Raw** 的非官方微調。模型卡寫得很清楚：不是官方 Krea 產品，與 Krea.ai, Inc. 無關聯、無背書。下文按可驗證公開資料說明 Krea2 Edit Model 能做什麼、與普通 Krea 2 生成有何不同，以及如何在不靠猜的情況下執行 Krea2 Edit Model。
+
+## 為什麼官方沒有 Krea2 Edit Model
+
+Krea 產品端在 [krea.ai](https://www.krea.ai/) 已有生成式編輯能力（區域編輯、光照、機位等）。那是**產品功能**，不是你可以在 ComfyUI 中固定版本、疊加角色 LoRA、或掛到 Space 上的開放 **Krea 2 edit LoRA**。
+
+需要開源權重的創作者會撞上這些限制：
+
+- 官方 Krea 2 節點面向 **文生圖**（及相關生成控制），而非雙條件指令編輯。
+- 閉源線上編輯器無法像本地工作流那樣載入任意社群 LoRA。
+- 僅靠「整圖重生成」來「編輯」，往往破壞身份與服裝連續性。
+
+Krea2 Edit Model 補上這條鏈路：輸入影像 + 自然語言指令 → 身份保持的編輯結果，並跑在開放的 Krea 2 基礎設施上。若你正是因為官方下載停在生成 checkpoint 才搜尋 Krea2 Edit Model，那你找對地方了。
+
+## Krea2 Edit Model 訓練面向的編輯類型
+
+Krea2 Edit Model 面向 Krea 2（12.9B 單流 MMDiT）的**指令式、身份保持**編輯。保留源圖；只描述要改的部分；模型被訓練為盡量不動其餘內容——包括人物。
+
+### 人物重排場景（保留相似度）
+
+經典測試：「拍一張這個人在夜市的照片」。成功樣本通常保留面部與服裝線索（甚至痣與面料細節），同時把光照與場景完整重做，並支援新機位與姿態。
+
+### 局部物件與屬性編輯
+
+局部重上色、增刪替換，其餘區域接近逐像素保留。訓練過的 **replace** 動詞有助於局部性。仍建議對照原圖——局部任務偶爾會帶動色調或誤傷邊緣。
+
+### 雙參考：場景 + 人物合成
+
+場景始終是圖 1，人物始終是圖 2，順序與訓練一致。對調會明顯掉品質。兩人同框時，上游建議**串聯**單參考插入，而不是一次硬塞兩張臉。
+
+### Krea2 Edit Model 的 v1.2 能力
+
+推薦的 Krea2 Edit Model 權重：`krea2_identity_edit_v1_2.safetensors`。相對早期版本增加了 1024 高解析度訓練、更強的重排相似度、角色參考表工作流、頭/臉/眼/人物置換（部分基於 stablellama 的 MIT 資料集）、外擴、局部重繪、虛擬試穿、錯比例的 FIT 幾何，以及 `ref_boost` 保真旋鈕（公開工作流約以 4 作為強相似度起點）。
+
+Krea2 Edit Model 的低顯存 SVD 變體（`r128` 約 0.91GB，`r64` 約 0.46GB）按模型卡保留超過 99% 權重能量——適合筆電 GPU。
+
+## 條件機制（為什麼原版節點不夠）
+
+Krea2 Edit Model 訓練使用**雙重條件**：上下文 VAE token（外觀）+ 以影像為基的 Qwen3-VL 編碼（語意 grounding）。原版 Krea 2 節點不提供這條路徑。
+
+需要社群節點包 [ComfyUI-Krea2Edit](https://github.com/lbouaraba/comfyui-krea2edit)（附帶兩套工作流）。沒有這些節點，只載入 LoRA 無法重現模型卡描述的 Krea2 Edit Model 行為。
+
+## Krea2 Edit Model 推薦參數
+
+以下數字來自公開模型卡——在 ComfyUI 或 Space 暴露對應控制項時可作為預設。
+
+| 任務類型                          | Checkpoint   | Steps | CFG |
+| --------------------------------- | ------------ | ----- | --- |
+| 添加 / 重上色 / 重風格 / 重排場景 | Krea 2 Turbo | 8–12  | 1.0 |
+| 移除 / 大範圍刪除                 | Krea 2 Raw   | ~20   | 3.0 |
+
+- **`ref_boost` ≈ 4**：強相似度；高於約 10 開始破壞刪除；低於 1 更偏創意。
+- **`grounding_px`**：越低越跟編輯指令；越高越護身份。出現「裂圖/雙圖」通常是遠高於訓練區間（v1.1 文件常見舒適帶 384–768）。
+- **生成約 ≤ 2MP**，降低源圖滲色或重複。
+- **LoRA 強度 1.0**。CFG &gt; 1 時，負向也要用空提示 + 同一張圖做 grounding。
+
+## Krea2 Edit Model 需要預期的局限
+
+來自上游模型卡的 Krea2 Edit Model 誠實限制，而非宣傳話術：
+
+- 相似度偏「紋理忠實、比例保守」——極端五官幾何可能像「近親」。
+- 刪除需 Raw / CFG 3 配方，仍可能失敗。
+- 換裝成功率不穩定，需要重抽或改寫指令。
+- 極端髮型或體型可能需要再疊一層 subject LoRA。
+
+許可：Krea 2 的衍生模型，遵循 **Krea 2 Community License**。在公開營收閾值內允許商用（模型卡摘要：年營收約 100 萬美元以下）；超出需聯繫 Krea。部署應做內容審核；必要時需 AI 披露。該 LoRA 僅 SFW 訓練——請勿製作針對真人的非自願或有害影像。
+
+## 今天如何試用 Krea2 Edit Model
+
+1. **瀏覽器（最快）：** 打開 [Krea2 Edit](/#try)——首頁嵌入 Hugging Face Space，無需先裝 ComfyUI 即可驗證 Krea2 Edit Model 提示詞。
+2. **本地可控：** 安裝支援原生 Krea 2 的 ComfyUI，加入 ComfyUI-Krea2Edit，載入 Krea2 Edit Model 檔案 `krea2_identity_edit_v1_2.safetensors`，執行附帶工作流。
+3. **迭代：** 從清晰單人照片、Turbo 短跑、一條重排或重上色指令開始；先記成功的 Krea2 Edit Model 提示，再本地批次。
+
+## FAQ
+
+### Krea2 Edit Model 是官方的嗎？
+
+不是。官方 Krea 應用有自己的編輯介面。Krea2 Edit Model 是基於 Krea 2 Raw 的社群 LoRA。網站 Krea2 Edit 只是該 Krea2 Edit Model 發布的便利入口——與 Krea.ai, Inc. 無關聯、無背書。
+
+### 官方有沒有等價的開放 edit LoRA？
+
+截至本文寫作時沒有。官方 Krea 2 側重基礎生成與產品內工具；開放指令編輯 + 身份保持，正是本文所述社群 Krea2 Edit Model 棧。
+
+### 權威來源在哪裡？
+
+- 權重與模型卡：[conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit)
+- 節點：[ComfyUI-Krea2Edit](https://github.com/lbouaraba/comfyui-krea2edit)
+- 基礎模型系列：[Krea 2](https://www.krea.ai/krea-2)
+
+本站相關問題：[support@krea2edit.app](mailto:support@krea2edit.app)。

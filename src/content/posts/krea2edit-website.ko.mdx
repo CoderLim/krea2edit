@@ -1,0 +1,107 @@
+export const meta = {
+  title: 'Krea2 Edit Website - 온라인 에디터 허브 | Krea2 Edit',
+  description:
+    'Krea2 Edit는 커뮤니티 identity edit을 위한 브라우저 허브입니다. 라이브 Space, 가이드, 블로그를 제공합니다. 공식 Krea.ai 제품이 아닙니다. 사이트를 열고 무료로 편집을 시작하세요.',
+  created_at: '2026-07-31',
+  author_name: 'Krea2 Edit',
+  author_image: '/logo.webp',
+  image: '/logo-og.png',
+};
+
+**Krea2 Edit**(https://krea2edit.app)는 하나의 목적을 위해 만든 작은 웹사이트입니다. 크리에이터에게 커뮤니티 identity-edit 워크플로로 들어갈 안정적이고 검색하기 쉬운 거점을 제공합니다. Hugging Face 토론, Space URL, ComfyUI 설치 안내를 먼저 뒤질 필요가 없습니다.
+
+이 페이지는 **웹사이트 자체**를 다룹니다. 무엇을 위해 있는지, 무엇을 찾을 수 있는지, 원시 Space 링크보다 Krea2 Edit를 북마크해야 할 때는 언제인지. 홈페이지 사용법의 재인쇄도, 모델 카드 심층 분석도 아닙니다. 그 내용은 [홈페이지](/)와 [Krea2 Edit Model](/blog/krea2-edit-model)에 있습니다.
+
+## Krea2 Edit 웹사이트란(그리고 아닌 것)
+
+Krea2 Edit는 **커뮤니티 현관**입니다. 도메인이 라이브 Hugging Face Space, 짧은 안내, 법적 페이지, 블로그를 묶어 제품명으로 검색한 사람이 일관된 페이지에 도달하게 합니다.
+
+**다음이 아닙니다**:
+
+- 공식 Krea.ai 제품이거나 krea.ai의 리브랜드
+- 고정 가중치, LoRA 스택, 배치 그래프가 필요할 때 ComfyUI를 대체하는 도구
+- 기반 LoRA를 우리가 훈련하거나 소유한다는 주장——공개 릴리스 [conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit)와 그 작성자에게 귀속
+
+Krea2 Edit를 「지도 + 대기실」로 생각하세요. 도착해 페이지 안에서 에디터를 써 보고, 브라우저에 머물지 로컬 스택으로 갈지 결정합니다.
+
+## Krea2 Edit 사이트 대상 사용자
+
+### 프롬프트를 탐색하는 사람
+
+수 GB짜리 checkpoint를 받기 전에 문구를 시험하고 싶을 때. Krea2 Edit는 에디터를 첫 화면에 두어 문서 미로를 거치지 않고 도구에 닿을 수 있습니다.
+
+### 링크를 공유하는 팀
+
+기억하기 쉬운 도메인(`krea2edit.app`)은 긴 `*.hf.space` URL보다 Slack에 던지기 좋습니다. 사이트에는 비공식임을 분명히 표시해 Krea 상용 제품과 혼동되지 않게 합니다.
+
+### 설치 없이 맥락만 원하는 독자
+
+ComfyUI를 열지 않을 방문자도 있습니다. 그들에게 Krea2 Edit는 「이 커뮤니티 스택이 무엇인지」를 동작하는 데모 옆에 두고, 준비되면 더 깊은 글로 안내합니다.
+
+## Krea2 Edit에서 찾을 수 있는 것
+
+| 영역            | 사이트에서의 역할                              |
+| --------------- | ---------------------------------------------- |
+| 홈 에디터       | 주 조작면——Space가 페이지 안에서 실행          |
+| 홈 가이드       | 첫 방문자용 안내(의도: 도구 사용)              |
+| [블로그](/blog) | 홈페이지를 부풀리지 않는 긴 글                 |
+| Privacy / Terms | 실제 도메인과 연락 이메일에 필요한 신뢰 페이지 |
+| 지원            | 사이트/Space 문제는 `support@krea2edit.app`    |
+
+분업은 의도적입니다. 홈은 작업 중심. 블로그(이 글과 [모델 가이드](/blog/krea2-edit-model))는 탐색·조사형 검색에 답하고 첫 화면을 비대하게 만들지 않습니다.
+
+## Krea2 Edit vs Space 직접 열기
+
+Space URL만 써도 됩니다. Krea2 Edit 웹사이트가 더 나은 경우:
+
+1. **브랜드 지속성** — Space 호스트나 버전이 바뀌어도 돌아올 한곳
+2. **주변 맥락** — 법적 링크, 연락처, 글——빈 Space UI에는 없음
+3. **SEO 발견성** — 제품명 검색 시 해당 쿼리용 페이지에 도달, 모델 저장소만이 아님
+
+Gradio UI만 필요하고 스택을 이미 안다면 원시 Space(또는 fork)면 충분합니다.
+
+## Krea2 Edit vs krea.ai vs 로컬 ComfyUI
+
+세 가지는 다른 문제를 풉니다——의도적으로 섞어 쓰세요.
+
+| 목적지                  | 가장 적합한 용도                             |
+| ----------------------- | -------------------------------------------- |
+| **Krea2 Edit**          | 커뮤니티 identity-edit 경로의 제로 설치 체험 |
+| **krea.ai**             | 공식 Krea 제품, 계정, 앱 내 편집             |
+| **로컬 ComfyUI + 노드** | 프로덕션 제어, LoRA 스택, 오프라인 배치      |
+
+Krea2 Edit는 krea.ai를 재현하려 하지 않습니다. 브라우저 iframe이 데스크톱 그래프를 대체한다고 가정하지도 않습니다. 많은 크리에이터의 실용적 습관: Krea2 Edit에서 지시를 스케치하고, 고정 파일로 로컬에서 우승 프롬프트를 재현.
+
+## 사이트 신뢰를 유지하는 방법
+
+- **관계 표기** — 비공식 커뮤니티 데모; Krea.ai, Inc.의 보증 없음
+- **업스트림 안내** — 가중치와 레시피의 정본은 모델 카드와 노드 저장소
+- **연락 경로** — 사이트 문제는 [support@krea2edit.app](mailto:support@krea2edit.app)
+- **HTTPS + 정책** — 푸터에 [Privacy Policy](/privacy-policy)와 [Terms of Service](/terms-of-service)
+
+임베드 Space가 깨지면(대기열, 콜드 스타트, 버전 드리프트) 알려 주세요——호스팅 데모는 이 도메인 오리진 서버만이 아니라 Space 가용성에 의존합니다.
+
+## 신규 방문자 추천 경로
+
+1. [Krea2 Edit](/#try)를 열고 짧은 restage 또는 recolor 한 번——사이트가 맞는지 확인.
+2. 홈페이지는 필요한 부분만 훑기; 아는 섹션은 건너뛰기.
+3. 이 LoRA가 왜 있는지, 공식 다운로드와 어떻게 다른지 궁금하면 [Krea2 Edit Model](/blog/krea2-edit-model) 읽기.
+4. 공유 Space를 넘는 재현성이 필요하면 ComfyUI로.
+
+## Krea2 Edit 웹사이트 FAQ
+
+### Krea2 Edit는 무료인가요?
+
+공개 사이트와 임베드 데모는 무료로 시도할 수 있습니다. 가중치를 직접 배포하면 업스트림 LoRA 라이선스가 여전히 적용됩니다——모델 카드와 Krea 2 Community License 참고.
+
+### 편집에 Krea2 Edit 계정이 필요한가요?
+
+아니요. 홈 에디터는 가입 없이 사용 가능합니다. 이 스택의 계정은 이후 대시보드 기능용이며 iframe을 막는 게이트가 아닙니다.
+
+### 사이트가 내 이미지를 저장하나요?
+
+임베드 Space를 제3자 호스팅 데모로 간주하세요. 비공개나 상용 파이프라인에는 통제 가능한 로컬 ComfyUI 그래프를 우선하세요. 사이트 수준 정책은 Privacy Policy에 있습니다.
+
+### 피드백은 어디로?
+
+사이트, 도메인, 임베딩 문제: [support@krea2edit.app](mailto:support@krea2edit.app). 모델 훈련이나 LoRA 버그는 Hugging Face 모델 토론으로. 이 받은편지함이 아닙니다.

@@ -1,0 +1,102 @@
+export const meta = {
+  title: 'Krea2 Edit Model - コミュニティ Identity エディター | Krea2 Edit',
+  description:
+    'Krea2 Edit Model は公式 Krea に edit LoRA がない空白を埋めます。コミュニティ identity エディターの仕組み、主要設定、限界を解説。オンラインで無料お試し。',
+  created_at: '2026-07-31',
+  author_name: 'Krea2 Edit',
+  author_image: '/logo.webp',
+  image: '/logo-og.png',
+};
+
+公式 **Krea** は Krea 2 を基盤画像モデルとして提供しています——Medium、Large、Turbo 各バリアントに、スタイル参照、ムードボード、生成スライダーなど。しかし **専用の Krea 2 指令編集 LoRA**（人物の likeness を保ったままシーンを書き換えるもの）は同梱していません。その空白こそがコミュニティ **Krea2 Edit Model** の存在理由であり、[Krea2 Edit](/) がブラウザに Krea2 Edit Model を埋め込む理由でもあります。
+
+公開重みは Hugging Face の [conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit)——**Krea 2 Raw** の非公式 fine-tune。モデルカードは明確です：公式 Krea 製品ではなく、Krea.ai, Inc. とは無関係で推奨もされていません。本記事では、Krea2 Edit Model が実際に何をするか、通常の Krea 2 生成とどう違うか、推測なしで Krea2 Edit Model を動かす方法を整理します。
+
+## 公式 Krea に Krea2 Edit Model がない理由
+
+Krea の製品面には [krea.ai](https://www.krea.ai/) 上に生成型編集ツールがあります——領域編集、ライティング、カメラアングルなど。これらは **製品機能** であり、ComfyUI で固定したり、キャラクター adapter とスタックしたり、Space でホストできる **開放 Krea 2 edit LoRA** ではありません。
+
+オープン重みが必要なクリエイターは壁にぶつかります：
+
+- 公式 Krea 2 ノードは **text-to-image**（および関連生成制御）向けで、二重条件の指令編集向けではない。
+- クローズドエディターはローカルグラフのように任意のコミュニティ LoRA を読み込めない。
+- プロンプトだけの「全体再生成による編集」は identity と服装の連続性を壊す。
+
+Krea2 Edit Model はそのループを閉じます：画像入力、平易な言語の指令入力、identity を保った編集出力——オープン Krea 2 インフラ上で。公式ダウンロードが生成 checkpoint で止まっているから Krea2 Edit Model を探していたなら、正しい場所です。
+
+## Krea2 Edit Model の訓練目的
+
+Krea2 Edit Model は Krea 2（12.9B 単一ストリーム MMDiT）上の **指令ベース・identity 保持** 編集を狙います。ソースを保持し、変える部分だけを指示し、モデルは人物を含め残りを触らないよう訓練されています。
+
+### 人物の likeness 保持 restage
+
+定番テスト：「この人物が夜市にいる写真を作る」。良い結果は顔と服装の手がかり（ほくろや生地の跡まで）を保ちつつ、新シーンへ完全に relight し、新しいカメラアングルとポーズも可能。
+
+### 局所オブジェクト・属性編集
+
+再配色、追加、削除、領域の置換——他はほぼピクセル単位で保持。訓練された **replace** 動詞が局所性を助けます。ソースと比較は必須——局所ジョブでたまにグレードがずれたり意図しない端が触れることがあります。
+
+### 二参照：シーン + 人物合成
+
+シーンは常に画像 1、人物は常に画像 2。訓練と同じ順序。入れ替えると品質が急落。二人の場合、上流の指針は一パスに両方の顔を押し込まず **単参照挿入をチェーン** すること。
+
+### Krea2 Edit Model v1.2 の能力
+
+推奨ファイルは `krea2_identity_edit_v1_2.safetensors`。以前のビルド比で 1024 高解像度訓練、より強い restage likeness、キャラクター参照シート、頭/顔/目/人物 swap（stablellama の MIT swap データセットの一部）、アウトペイント、インペイント、バーチャル試着、縦横比不一致向け FIT 幾何、`ref_boost` 忠実度ダイヤル（公開ワークフローでは強 likeness の起点は約 4）。
+
+低 VRAM の Krea2 Edit Model SVD カット（`r128` 約 0.91GB、`r64` 約 0.46GB）はカード記載どおり重みエネルギーの &gt;99% を保持——ノート PC GPU 向け。
+
+## 条件付けの仕組み（公式ノードが足りない理由）
+
+Krea2 Edit Model の訓練は **二重条件**：外見の in-context VAE トークン **＋** 意味 grounding の image-grounded Qwen3-VL エンコード。公式 Krea 2 ノードはこの経路を提供しません。
+
+コミュニティノードパック [ComfyUI-Krea2Edit](https://github.com/lbouaraba/comfyui-krea2edit)（同梱ワークフロー 2 本）が必要。これらなしに LoRA だけ読み込んでも、カードが述べる Krea2 Edit Model の挙動は再現できません。
+
+## Krea2 Edit Model 推奨設定
+
+以下は公開モデルカードの数値——ComfyUI または同等コントロールを持つ Space ではデフォルトとして使えます。
+
+| ジョブ種別                           | Checkpoint   | Steps | CFG |
+| ------------------------------------ | ------------ | ----- | --- |
+| 追加 / 再配色 / 再スタイル / restage | Krea 2 Turbo | 8–12  | 1.0 |
+| 削除 / 大きな削除                    | Krea 2 Raw   | ~20   | 3.0 |
+
+- **`ref_boost` ≈ 4** — 強 likeness；約 10 超で削除が壊れ始める；1 未満で創造性が緩む。
+- **`grounding_px`** — 低いほど編集に均一に従う；高いほど identity を守る。分割/二重フレームは訓練帯域を大きく超えているサイン（v1.1 ドキュメントは 384–768 を引用）。
+- **生成は約 ≤ 2MP** でソース bleed や重複を減らす。
+- **LoRA 強度 1.0**。CFG &gt; 1 のとき、ネガティブは空プロンプト＋同じ画像で grounding。
+
+## 想定すべき Krea2 Edit Model の限界
+
+上流カードに基づく正直な限界——マーケティング文ではありません：
+
+- likeness はテクスチャ忠実・比例保守的—— unusual な顔の幾何は「近い親族」に読めることがある。
+- 削除は Raw/CFG 3 レシピが必要で、それでも失敗することがある。
+- 衣装 swap は当たり外れ；リロールか言い換え。
+- 極端な髪型や体型は subject LoRA の追加スタックが必要な場合がある。
+
+ライセンス：**Krea 2 Community License** 下の Derivative Model。公開収益閾値内で商用利用可（モデルカード要約：年間約 100 万ドル未満）；超過は Krea に連絡。デプロイはコンテンツモデレーション；AI 開示が必要な場合あり。LoRA は SFW 訓練——実在人物の非合意・有害 likeness は作らないでください。
+
+## 今日 Krea2 Edit Model を試す方法
+
+1. **ブラウザ（最速）：** [Krea2 Edit](/#try) を開く——ホームページが Hugging Face Space を埋め込み、ComfyUI なしで Krea2 Edit Model プロンプトを検証。
+2. **ローカル制御：** ネイティブ Krea 2 対応 ComfyUI に ComfyUI-Krea2Edit を追加、`krea2_identity_edit_v1_2.safetensors` を読み込み、同梱ワークフローを実行。
+3. **反復：** 明確な被写体 1 人、Turbo 長さ、restage か recolor 指令 1 本から。ローカル一括前に当たった Krea2 Edit Model プロンプトを記録。
+
+## FAQ
+
+### Krea2 Edit Model は公式ですか？
+
+いいえ。公式 Krea アプリには独自の編集面があります。Krea2 Edit Model は Krea 2 Raw 上のコミュニティ LoRA。サイト Krea2 Edit はその Krea2 Edit Model リリース周辺の便利レイヤー——Krea.ai, Inc. とは無関係で推奨もされていません。
+
+### 公式 Krea に同等のオープン edit LoRA はありますか？
+
+執筆時点ではありません。公式 Krea 2 は基盤生成と製品内ツールに重点。オープン指令編集＋identity 保持は、ここで述べるコミュニティ Krea2 Edit Model スタックです。
+
+### 正本はどこですか？
+
+- 重みとカード：[conradlocke/krea2-identity-edit](https://huggingface.co/conradlocke/krea2-identity-edit)
+- ノード：[ComfyUI-Krea2Edit](https://github.com/lbouaraba/comfyui-krea2edit)
+- 基盤モデルファミリー：[Krea 2](https://www.krea.ai/krea-2)
+
+本サイトに関する質問：[support@krea2edit.app](mailto:support@krea2edit.app)。

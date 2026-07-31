@@ -3,6 +3,31 @@ import { m } from '@/paraglide/messages.js';
 
 const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
 
+/** Reciprocal / partner badges — append more entries as exchanges land. */
+const PARTNER_BADGES = [
+  {
+    href: 'https://saasgrow.app?ref=krea2edit.app',
+    img: 'https://saasgrow.app/api/badge?type=featured&style=dark',
+    alt: 'Krea2 Edit on SaaSGrow',
+    width: 240,
+    height: 54,
+  },
+  {
+    href: 'https://submitaitools.org',
+    img: 'https://submitaitools.org/static_submitaitools/images/submitaitools.png',
+    alt: 'Submit AI Tools',
+    width: 200,
+    height: 60,
+  },
+  {
+    href: 'https://neeed.directory',
+    img: 'https://neeed.directory/badges/neeed-badge-dark.svg',
+    alt: 'Featured on neeed.directory',
+    width: 139,
+    height: 40,
+  },
+] as const;
+
 export function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black/40 px-4 py-12 sm:px-6">
@@ -76,6 +101,34 @@ export function Footer() {
           <p className="text-muted-foreground/70 mt-4 text-xs">
             © {new Date().getFullYear()} Krea2 Edit
           </p>
+        </div>
+
+        <div className="mt-8 border-t border-white/10 pt-6">
+          <p className="text-muted-foreground/80 text-[11px] tracking-[0.12em] uppercase">
+            {m['landing.footer.partners']()}
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-3 sm:gap-4">
+            {PARTNER_BADGES.map((badge) => (
+              <a
+                key={badge.href}
+                href={badge.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={badge.alt}
+                className="opacity-90 transition-opacity hover:opacity-100"
+              >
+                <img
+                  src={badge.img}
+                  alt={badge.alt}
+                  width={badge.width}
+                  height={badge.height}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-[54px] w-auto max-w-[240px] rounded-[10px]"
+                />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
