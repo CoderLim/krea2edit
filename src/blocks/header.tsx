@@ -13,10 +13,12 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: localizeHref('/#try'), label: m['landing.nav.try']() },
+    {
+      href: localizeHref('/identity-edit'),
+      label: m['marketing.nav.editor'](),
+    },
+    { href: localizeHref('/guide'), label: m['marketing.nav.guide']() },
     { href: localizeHref('/blog'), label: m['landing.nav.blog']() },
-    { href: localizeHref('/#how-to'), label: m['landing.nav.how']() },
-    { href: localizeHref('/#faq'), label: m['landing.nav.faq']() },
   ];
 
   return (

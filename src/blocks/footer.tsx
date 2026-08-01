@@ -63,6 +63,34 @@ export function Footer() {
         <div className="mt-8 border-t border-white/10 pt-6">
           <nav className="flex flex-wrap gap-x-5 gap-y-2 text-xs">
             <Link
+              href="/"
+              title={m['marketing.common.home']()}
+              className="hover:text-foreground transition-colors"
+            >
+              {m['marketing.common.home']()}
+            </Link>
+            <Link
+              href="/identity-edit"
+              title={m['marketing.nav.editor']()}
+              className="hover:text-foreground transition-colors"
+            >
+              {m['marketing.nav.editor']()}
+            </Link>
+            <Link
+              href="/guide"
+              title={m['marketing.nav.guide']()}
+              className="hover:text-foreground transition-colors"
+            >
+              {m['marketing.nav.guide']()}
+            </Link>
+            <Link
+              href="/no-comfyui"
+              title={m['nocomfy.h1']()}
+              className="hover:text-foreground transition-colors"
+            >
+              {m['nocomfy.h1']()}
+            </Link>
+            <Link
               href="/blog"
               title="Krea2 Edit blog"
               className="hover:text-foreground transition-colors"
@@ -82,20 +110,6 @@ export function Footer() {
               className="hover:text-foreground transition-colors"
             >
               {m['landing.footer.terms']()}
-            </Link>
-            <Link
-              href="/#how-to"
-              title="How to use Krea2 Edit"
-              className="hover:text-foreground transition-colors"
-            >
-              {m['landing.nav.how']()}
-            </Link>
-            <Link
-              href="/#faq"
-              title="Krea2 Edit FAQ"
-              className="hover:text-foreground transition-colors"
-            >
-              {m['landing.nav.faq']()}
             </Link>
           </nav>
           <p className="text-muted-foreground/70 mt-4 text-xs">

@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { envConfigs } from '@/config';
 import { m } from '@/paraglide/messages.js';
 import { getLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
+import { ExplorePageLinks } from '@/blocks/explore-pages';
 import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
 import { Hero } from '@/blocks/hero';
@@ -105,6 +106,7 @@ function HomePage() {
       <Header />
       <main>
         <Hero />
+        <ExplorePageLinks />
         <SeoGuide />
       </main>
       <Footer />

@@ -7,6 +7,11 @@ import { getLocalPosts, mergePosts } from '@/content/posts';
 const STATIC_PATHS = [
   '',
   '/pricing',
+  '/identity-edit',
+  '/guide',
+  '/image-editor',
+  '/vs-krea',
+  '/no-comfyui',
   '/blog',
   '/privacy-policy',
   '/terms-of-service',
