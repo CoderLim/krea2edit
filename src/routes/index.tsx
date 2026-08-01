@@ -24,7 +24,7 @@ function buildJsonLd(canonical: string) {
       priceCurrency: 'USD',
     },
     description:
-      'Browser tool for identity-preserving instruction-based image edits using the community Krea 2 Identity Edit LoRA.',
+      'Free browser tool for changing backgrounds, swapping outfits, restyling photos, and preserving recognizable faces and identities.',
     creator: {
       '@type': 'Organization',
       name: 'Krea2 Edit',
@@ -42,18 +42,18 @@ function buildJsonLd(canonical: string) {
     step: [
       {
         '@type': 'HowToStep',
-        name: 'Upload a clear single-subject photo',
-        text: 'Use a sharp face and readable outfit. Prefer sources around or under 2 megapixels.',
+        name: 'Upload a clear photo',
+        text: 'Choose a sharp photo with one clearly visible person.',
       },
       {
         '@type': 'HowToStep',
-        name: 'Write one concrete instruction',
-        text: 'Use a clear verb such as restage, recolor, or replace. Omit details you want preserved.',
+        name: 'Describe one change',
+        text: 'Ask for one focused change, such as a new background, outfit color, or object replacement.',
       },
       {
         '@type': 'HowToStep',
-        name: 'Generate and adjust likeness',
-        text: 'Start with Turbo-style short runs (8–12 steps, CFG 1.0). Raise ref_boost near 4 if likeness drifts.',
+        name: 'Generate and review',
+        text: 'Compare the result with the original and simplify your instruction if too much changed.',
       },
     ],
   };
@@ -72,18 +72,18 @@ function buildJsonLd(canonical: string) {
       },
       {
         '@type': 'Question',
-        name: 'Which weight should I assume the Space uses?',
+        name: 'Is Krea2 Edit free to use?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Prefer v1.2 (krea2_identity_edit_v1_2.safetensors) when available. Confirm the pinned version on the Space before comparing sessions.',
+          text: 'Yes, the browser editor is completely free. No sign-up required.',
         },
       },
       {
         '@type': 'Question',
-        name: 'Can I run the same stack offline after trying Krea2 Edit?',
+        name: 'Do I need to download or install anything?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes. Use ComfyUI with native Krea 2 support, the ComfyUI-Krea2Edit node pack, and the LoRA file with a shipped workflow.',
+          text: 'No. Open the editor in a modern browser, upload a photo, and describe the change you want.',
         },
       },
       {
@@ -91,7 +91,7 @@ function buildJsonLd(canonical: string) {
         name: 'What should I try first?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'A clear single-subject photo, a Turbo-length run, and one restage or recolor instruction.',
+          text: 'Start with a clear photo of one person and ask for one simple change, such as a new background or jacket color.',
         },
       },
     ],

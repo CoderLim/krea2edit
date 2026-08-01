@@ -12,6 +12,7 @@ const STATIC_PATHS = [
   '/image-editor',
   '/vs-krea',
   '/no-comfyui',
+  '/technical',
   '/blog',
   '/privacy-policy',
   '/terms-of-service',
