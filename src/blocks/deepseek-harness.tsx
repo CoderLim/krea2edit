@@ -23,7 +23,7 @@ export function DeepSeekHarness() {
       className="border-border border-y px-5 py-12 sm:px-8 lg:py-16"
     >
       <div className="mx-auto max-w-7xl">
-        <p className="text-brand font-mono text-[11px] font-semibold tracking-[0.16em] uppercase">
+        <p className="text-brand-soft-foreground font-mono text-[11px] font-semibold tracking-[0.16em] uppercase">
           {m['landing.harness.eyebrow']()}
         </p>
 
@@ -64,6 +64,8 @@ export function DeepSeekHarness() {
           <div className="border-border bg-muted overflow-hidden rounded-[18px] border p-1 shadow-[0_24px_70px_-40px_rgba(15,23,42,0.45)]">
             <img
               src="/imgs/product/dscode-artifact-preview.webp"
+              srcSet="/imgs/product/dscode-artifact-preview-480.webp 480w, /imgs/product/dscode-artifact-preview-720.webp 720w, /imgs/product/dscode-artifact-preview-960.webp 960w, /imgs/product/dscode-artifact-preview.webp 1660w"
+              sizes="(max-width: 48rem) calc(100vw - 2.5rem), (max-width: 75rem) calc(100vw - 4rem), 70rem"
               width="1660"
               height="939"
               loading="lazy"

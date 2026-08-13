@@ -15,6 +15,10 @@ export function Footer() {
       title: m['landing.footer.product'](),
       links: [
         {
+          label: m['landing.footer.download'](),
+          href: '/#download',
+        },
+        {
           label: m['landing.footer.github'](),
           href: GITHUB_URL,
           external: true,
