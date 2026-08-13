@@ -5,7 +5,7 @@ import { ArrowLeft, Calendar } from 'lucide-react';
 import { Link } from '@/core/i18n/navigation';
 import { envConfigs } from '@/config';
 import { m } from '@/paraglide/messages.js';
-import { getLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
+import { getLocale, localizeUrl } from '@/paraglide/runtime.js';
 import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
 import { MarkdownContent } from '@/components/markdown-content';
@@ -25,71 +25,15 @@ export const Route = createFileRoute('/blog/$slug')({
   head: ({ loaderData }) => {
     if (!loaderData) return {};
     const { locale, post } = loaderData;
-    const appUrl = envConfigs.app_url.replace(/\/$/, '');
-    const urlFor = (loc: string) =>
-      localizeUrl(`${appUrl}/blog/${post.slug}`, {
-        locale: loc as any,
-      }).href;
-    const canonical = localizeUrl(`${appUrl}/blog/${post.slug}`, {
+    const canonical = localizeUrl(`${envConfigs.app_url}/blog/${post.slug}`, {
       locale: locale as any,
     }).href;
-    const imagePath = post.image || '/imgs/product/dscode-desktop-preview.webp';
-    const socialImage = imagePath.startsWith('http')
-      ? imagePath
-      : `${appUrl}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
-    const title = `${post.title} | ${envConfigs.app_name}`;
-
     return {
       meta: [
-        { title },
+        { title: `${post.title} | ${envConfigs.app_name}` },
         { name: 'description', content: post.description },
-        { name: 'robots', content: 'index, follow' },
-        { property: 'og:type', content: 'article' },
-        { property: 'og:title', content: title },
-        { property: 'og:description', content: post.description },
-        { property: 'og:url', content: canonical },
-        { property: 'og:image', content: socialImage },
-        { property: 'article:published_time', content: post.createdAt },
-        { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: title },
-        { name: 'twitter:description', content: post.description },
-        { name: 'twitter:image', content: socialImage },
-        {
-          'script:ld+json': {
-            '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            headline: post.title,
-            description: post.description,
-            datePublished: post.createdAt,
-            dateModified: post.createdAt,
-            inLanguage: locale,
-            url: canonical,
-            mainEntityOfPage: canonical,
-            image: socialImage,
-            author: {
-              '@type': 'Organization',
-              name: post.authorName || 'DSCode Team',
-            },
-            publisher: {
-              '@type': 'Organization',
-              name: 'DSCode',
-              logo: {
-                '@type': 'ImageObject',
-                url: `${appUrl}/logo.svg`,
-              },
-            },
-          },
-        },
       ],
-      links: [
-        { rel: 'canonical', href: canonical },
-        ...locales.map((loc) => ({
-          rel: 'alternate',
-          hrefLang: loc,
-          href: urlFor(loc),
-        })),
-        { rel: 'alternate', hrefLang: 'x-default', href: urlFor('en') },
-      ],
+      links: [{ rel: 'canonical', href: canonical }],
     };
   },
   component: BlogPostPage,

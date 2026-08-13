@@ -3,18 +3,10 @@ import { SiteHeader } from '@/components/site-header';
 
 export function Header() {
   const navLinks = [
-    { href: '/#download', label: m['landing.nav.download']() },
-    { href: '/#deepseek-harness', label: m['landing.nav.harness']() },
     { href: '/#features', label: m['landing.nav.features']() },
-    { href: '/#how-it-works', label: m['landing.nav.how']() },
-    { href: '/#faq', label: m['landing.nav.faq']() },
+    { href: '/pricing', label: m['landing.nav.pricing']() },
+    { href: '/blog', label: m['landing.nav.blog']() },
   ];
 
-  return (
-    <SiteHeader
-      navLinks={navLinks}
-      ctaHref="/#download"
-      ctaLabel={m['landing.nav.download']()}
-    />
-  );
+  return <SiteHeader navLinks={navLinks} />;
 }

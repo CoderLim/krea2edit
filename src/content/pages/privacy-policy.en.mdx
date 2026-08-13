@@ -1,69 +1,53 @@
 export const meta = {
   title: 'Privacy Policy',
-  description:
-    'How DSCode handles your data — locally first, no telemetry, fully transparent.',
-  updated_at: '2026-07-31',
+  description: 'How we collect, use, and protect your personal information.',
+  updated_at: '2026-05-21',
 };
 
 ## Introduction
 
-DSCode is a local-first, open-source coding agent. This Privacy Policy explains how the DSCode command-line tool and the dscode.ai website handle your data.
+We respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our service.
 
-The short version: **DSCode is local-first and collects no telemetry.** Your sessions, configuration, and API keys live on your own machine. The only time your data leaves your computer is when you choose to send it to an AI provider such as DeepSeek.
+## Information We Collect
 
-## How the DSCode CLI Handles Your Data
+We collect the following types of information to provide and improve our service:
 
-### Stored locally on your machine
+1. **Account Information** — Your name, email address, and other details you provide when creating an account.
+2. **Usage Data** — Information about how you interact with the service, including features accessed, frequency of use, and interaction patterns.
+3. **Device Information** — Device type, operating system, and browser type, used to optimize compatibility and performance.
+4. **Cookies** — Small data files stored on your device to remember preferences and improve your experience.
+5. **Payment Information** — Billing details handled by trusted third-party payment processors. We do not store full card numbers on our servers.
 
-When you use the DSCode CLI, the following data is stored only on your computer:
+## How We Use Your Information
 
-1. **Sessions** — Your conversation history with the agent, stored as local tree-shaped JSONL files under `~/.dscode/`.
-2. **API keys** — Your DeepSeek (or compatible gateway) API key, stored in `~/.dscode/agent/auth.json` with `0600` permissions so only your user account can read it.
-3. **Configuration** — Endpoints and settings in `~/.dscode/config.json`.
-4. **Checkpoints** — Patch checkpoints created during your work, stored in your repository's local Git history.
+We use the data we collect to:
 
-### Sent to AI providers only when you use them
-
-DSCode works by sending prompts — including code from your repository — to the AI provider you configure (by default DeepSeek). This only happens when you actually run the agent. The processing of that data is governed by the provider's own terms and privacy policy, not by ours.
-
-### No telemetry
-
-DSCode does not phone home. It contains no analytics, no crash reporting, and no automatic updates that transmit your data. The source code is fully open and can be reviewed on [GitHub](https://github.com/thinkany-ai/dscode).
-
-## How the dscode.ai Website Handles Your Data
-
-The dscode.ai website is a static marketing site. We do not require accounts, and we do not collect personal information from visitors beyond standard web server logs (such as IP address, browser type, and pages visited) that are used to keep the site secure and to understand aggregate traffic.
-
-If you choose to install or use the DSCode CLI, we do not receive any information about your usage, your repositories, or your API keys.
+- Provide, maintain, and improve the service.
+- Process transactions and send related confirmations.
+- Send technical notices, security alerts, and support messages.
+- Respond to your questions, feedback, and support requests.
+- Detect, prevent, and address fraud and abuse.
 
 ## Data Sharing
 
-We do not sell, rent, or trade your personal information. We do not share data with third parties except:
+We do not sell your personal information. We may share data only in these limited cases:
 
-- With AI providers you explicitly configure (e.g. DeepSeek), to the extent required to provide the service you requested.
-- To comply with legal obligations or lawful requests from public authorities.
+- With service providers who help us operate the service, under confidentiality agreements.
+- To comply with legal obligations or respond to lawful requests from public authorities.
 - To protect our rights, property, or safety, or that of our users.
 
 ## Data Security
 
-Your local data is protected by your operating system's file permissions (API keys use `0600`). When data is sent to AI providers, it travels over encrypted HTTPS connections. Because DSCode is open source, you can audit exactly what the software does with your data.
+We implement industry-standard security measures including encryption in transit, access controls, and regular reviews. No method of transmission over the Internet is 100% secure, but we work continuously to protect your information.
 
-## Your Rights and Control
+## Your Rights
 
-Because your data lives on your own machine, you are always in full control:
-
-- Delete sessions and configuration at any time by removing the `~/.dscode/` directory.
-- Revoke your API key at any time through your provider's dashboard.
-- Audit the code — everything DSCode does is visible in the public repository.
-
-## Children's Privacy
-
-DSCode is a developer tool intended for adults. We do not knowingly collect personal information from children.
+You have the right to access, update, export, or delete your personal information. You can do this through your account settings or by contacting us at the email address below.
 
 ## Changes to This Policy
 
-We may update this Privacy Policy from time to time. Material changes will be reflected by updating the date at the top of this page. Since DSCode is open source, changes to how the software handles data are also always visible in the code itself.
+We may update this Privacy Policy from time to time. We will notify you of any material changes by updating the date at the top of this page and, where appropriate, sending a notice through the service.
 
 ## Contact Us
 
-If you have questions about this Privacy Policy, please open an issue on the [DSCode GitHub repository](https://github.com/thinkany-ai/dscode).
+If you have questions about this Privacy Policy, please contact us at the email address provided on our website.
