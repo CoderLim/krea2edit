@@ -12,8 +12,9 @@ import { baseLocale } from '@/paraglide/runtime.js';
  * local posts via the pure helpers below.
  */
 export const BLOG_POST_SLUGS = [
-  'what-is-shipany',
-  'blocks-vs-components',
+  'what-is-a-deepseek-harness',
+  'deepseek-code-agent-for-real-repositories',
+  'how-to-build-a-deepseek-coding-harness',
 ] as const;
 
 export type BlogPostMeta = {

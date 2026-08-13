@@ -1,0 +1,98 @@
+export const meta = {
+  title: 'What Is a DeepSeek Harness? A Practical Guide',
+  description:
+    'A practical explanation of the context, tools, safety rules, feedback loops, and observability that turn DeepSeek into a repository-level coding agent.',
+  created_at: '2026-08-13',
+  author_name: 'DSCode Team',
+  author_image: '/logo.svg',
+};
+
+A **DeepSeek harness** is the execution layer around a DeepSeek model. It gives the model repository context, tools, safety boundaries, memory, test feedback, and a traceable loop for completing multi-step coding work.
+
+The phrase does not describe a separate model. It describes the system that turns model output into useful action. A model can suggest a function; a harness can find the right file, understand local conventions, apply a patch, run the relevant tests, inspect the failure, and try again.
+
+## A model is not yet a coding agent
+
+Sending a prompt to an API is enough for a code snippet. It is not enough for a repository change.
+
+Real code work depends on state that lives outside the prompt: the file tree, dependency versions, build commands, generated files, repository instructions, the current Git diff, and the result of the last test run. The agent also needs a controlled way to act on that state.
+
+That is the job of the harness. It repeatedly connects four things:
+
+1. **The task** — what the developer wants changed.
+2. **The repository** — the code and instructions that constrain the answer.
+3. **The model** — the reasoning and code generation supplied by DeepSeek.
+4. **The environment** — search, editing, shell commands, tests, and review.
+
+Without that loop, the model returns an answer. With it, the agent can produce a reviewable result.
+
+## The six parts of a useful DeepSeek harness
+
+### 1. Repository-aware context
+
+A harness should gather context on demand instead of pasting an entire repository into every request. It needs fast file search, targeted reads, Git status, and awareness of files such as `AGENTS.md` or `CLAUDE.md`.
+
+Good context management is selective. It gives DeepSeek enough information to make the next decision while keeping unrelated files out of the context window.
+
+### 2. Explicit tool contracts
+
+Search, read, edit, patch, and shell tools should have narrow inputs and predictable outputs. The model needs to know what each tool can do, while the developer needs to know what the model actually did.
+
+Free-form shell access may be convenient, but it becomes safer when the harness separates ordinary commands from operations that require approval.
+
+### 3. An inspect-edit-test loop
+
+Repository work is iterative. A useful DeepSeek coding harness lets the model inspect the current state, make a small change, run a focused check, and use that result as the next piece of context.
+
+The test output matters as much as the original prompt. It converts a guess into evidence and gives the model a concrete signal for the next step.
+
+### 4. Safety boundaries
+
+The harness decides where commands run, whether networking is available, which paths can be changed, and when a person must approve an escalation. These boundaries belong in code, not in a sentence that asks the model to be careful.
+
+The goal is not to prevent useful work. It is to make authority visible and proportional to the task.
+
+### 5. Session memory
+
+Long tasks need a durable record of messages, tool calls, patches, and results. Local session history makes work resumable and reviewable without requiring a hosted conversation database.
+
+It also helps answer a simple but important question: why did the agent make this change?
+
+### 6. Cost and context observability
+
+A DeepSeek harness should expose context usage, cache activity, input and output tokens, reasoning, and estimated cost. These signals help developers catch runaway sessions and understand whether a workflow is efficient.
+
+Observability is part of the interface, not an accounting feature added later.
+
+## From request to tested patch
+
+A typical harness loop looks like this:
+
+1. Read the task and repository instructions.
+2. Search for the relevant code and tests.
+3. Build a small working context.
+4. Ask DeepSeek to plan or choose the next action.
+5. Execute a tool call inside the configured boundary.
+6. Return the tool result to the model.
+7. Repeat until the change and its verification are complete.
+8. Present the patch, test evidence, and usage summary for review.
+
+The model remains important, but the reliability of the result comes from the complete loop.
+
+## DeepSeek harness vs. API wrapper
+
+An API wrapper handles authentication, request formatting, retries, and response parsing. Those are necessary plumbing, but they do not make a coding agent.
+
+A harness owns the stateful work around the request: deciding what context to load, exposing tools, applying edits, preserving session history, enforcing permissions, and feeding execution results back into the next model turn.
+
+If a system can only send a prompt and print a response, it is a client. If it can safely move from a task to a verified repository change, it is acting as a harness.
+
+## How DSCode approaches the problem
+
+[DSCode](/) is an open-source DeepSeek harness built for real repositories. It combines a DeepSeek-native runtime with local JSONL sessions, sandboxed commands, repository instructions, parallel agents, and visible token costs.
+
+The CLI is available today. A desktop client is also in development, but installable desktop builds are not available yet.
+
+To see the workflow from the developer's side, read [DeepSeek Code Agent: From Prompt to Tested Repository Change](/blog/deepseek-code-agent-for-real-repositories). For an implementation-oriented view, continue with [How to Build a DeepSeek Coding Harness](/blog/how-to-build-a-deepseek-coding-harness).
+
+The useful question is not only “Which model writes the best snippet?” It is also “Which harness gives that model the clearest context, safest tools, and strongest feedback loop?”

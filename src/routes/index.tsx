@@ -3,38 +3,31 @@ import { createFileRoute } from '@tanstack/react-router';
 import { envConfigs } from '@/config';
 import { m } from '@/paraglide/messages.js';
 import { getLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
-import { Blog } from '@/blocks/blog';
 import { CTA } from '@/blocks/cta';
+import { DeepSeekHarness } from '@/blocks/deepseek-harness';
 import { FAQ } from '@/blocks/faq';
 import { Features } from '@/blocks/features';
 import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
 import { Hero } from '@/blocks/hero';
-import { Pricing } from '@/blocks/pricing';
-import { SupportWidget } from '@/blocks/support-widget';
-import { getBlogPostsFn } from '@/content/posts/server';
+import { HowItWorks } from '@/blocks/how-it-works';
 
 /**
- * Default landing page — demo content. Rewrite this file (and the blocks in
- * src/blocks/) for your project. The primitives in src/components/ stay.
- * See /quick-start or /clone-website to automate the rewrite.
+ * DSCode official website — open-source coding agent powered by DeepSeek.
  */
 function HomePage() {
-  const { posts } = Route.useLoaderData();
-
   return (
-    <div className="bg-background text-foreground flex min-h-screen flex-col">
+    <div className="bg-background text-foreground min-h-screen font-mono text-[15px] lg:pb-16 lg:text-base">
       <Header />
-      <main>
+      <main className="mx-auto w-full max-w-6xl">
         <Hero />
+        <DeepSeekHarness />
         <Features />
-        <Pricing />
+        <HowItWorks />
         <FAQ />
-        <Blog posts={posts} />
         <CTA />
       </main>
       <Footer />
-      <SupportWidget />
     </div>
   );
 }
@@ -42,18 +35,110 @@ function HomePage() {
 export const Route = createFileRoute('/')({
   loader: async () => {
     const locale = getLocale();
-    const posts = await getBlogPostsFn({ data: { locale, limit: 3 } });
-    return { locale, posts };
+    const title = m['landing.seo.title']({}, { locale });
+    const description = m['landing.seo.description']({}, { locale });
+    const imageAlt = m['landing.harness.screenshot_alt']({}, { locale });
+    const faq = [
+      {
+        question: m['landing.faq.harness.question']({}, { locale }),
+        answer: m['landing.faq.harness.answer']({}, { locale }),
+      },
+      {
+        question: m['landing.faq.desktop.question']({}, { locale }),
+        answer: m['landing.faq.desktop.answer']({}, { locale }),
+      },
+      {
+        question: m['landing.faq.install.question']({}, { locale }),
+        answer: m['landing.faq.install.answer']({}, { locale }),
+      },
+      {
+        question: m['landing.faq.model.question']({}, { locale }),
+        answer: m['landing.faq.model.answer']({}, { locale }),
+      },
+      {
+        question: m['landing.faq.compare.question']({}, { locale }),
+        answer: m['landing.faq.compare.answer']({}, { locale }),
+      },
+      {
+        question: m['landing.faq.free.question']({}, { locale }),
+        answer: m['landing.faq.free.answer']({}, { locale }),
+      },
+      {
+        question: m['landing.faq.contribute.question']({}, { locale }),
+        answer: m['landing.faq.contribute.answer']({}, { locale }),
+      },
+    ];
+
+    return { locale, title, description, imageAlt, faq };
   },
   head: ({ loaderData }) => {
     const locale = loaderData?.locale ?? 'en';
+    const title =
+      loaderData?.title ??
+      m['landing.seo.title']({}, { locale: locale as any });
+    const description =
+      loaderData?.description ??
+      m['landing.seo.description']({}, { locale: locale as any });
+    const imageAlt =
+      loaderData?.imageAlt ??
+      m['landing.harness.screenshot_alt']({}, { locale: locale as any });
+    const appUrl = envConfigs.app_url.replace(/\/$/, '');
+    const socialImage = `${appUrl}/imgs/product/dscode-desktop-preview.webp`;
     const urlFor = (loc: string) =>
-      localizeUrl(`${envConfigs.app_url}/`, { locale: loc as any }).href;
+      localizeUrl(`${appUrl}/`, { locale: loc as any }).href;
+    const canonicalUrl = urlFor(locale);
+
     return {
       meta: [
+        { title },
         {
           name: 'description',
-          content: m['landing.hero.subheadline']({}, { locale: locale as any }),
+          content: description,
+        },
+        { name: 'robots', content: 'index, follow' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:title', content: title },
+        { property: 'og:description', content: description },
+        { property: 'og:url', content: canonicalUrl },
+        { property: 'og:image', content: socialImage },
+        { property: 'og:image:width', content: '1468' },
+        { property: 'og:image:height', content: '932' },
+        { property: 'og:image:alt', content: imageAlt },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: title },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: socialImage },
+        {
+          'script:ld+json': {
+            '@context': 'https://schema.org',
+            '@graph': [
+              {
+                '@type': 'SoftwareApplication',
+                '@id': `${canonicalUrl}#software`,
+                name: 'DSCode',
+                applicationCategory: 'DeveloperApplication',
+                description,
+                url: canonicalUrl,
+                codeRepository: 'https://github.com/thinkany-ai/dscode',
+                license: 'https://opensource.org/license/mit',
+                isAccessibleForFree: true,
+                softwareRequirements: 'Node.js 22.19+ and Git',
+                image: socialImage,
+              },
+              {
+                '@type': 'FAQPage',
+                '@id': `${canonicalUrl}#faq`,
+                mainEntity: (loaderData?.faq ?? []).map((item) => ({
+                  '@type': 'Question',
+                  name: item.question,
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: item.answer,
+                  },
+                })),
+              },
+            ],
+          },
         },
       ],
       links: [
