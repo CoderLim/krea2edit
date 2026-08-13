@@ -23,7 +23,10 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="px-5 py-12 sm:px-8 md:py-16">
+    <section
+      id="how-it-works"
+      className="scroll-mt-24 px-5 py-12 sm:px-8 md:py-16"
+    >
       <div className="mx-auto max-w-7xl">
         <h2 className="text-foreground font-mono text-base leading-6 font-bold">
           {m['landing.how.title']()}

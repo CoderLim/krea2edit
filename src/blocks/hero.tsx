@@ -5,7 +5,7 @@ export function Hero() {
   return (
     <section>
       <div>
-        <div className="px-5 py-12 sm:px-8 min-[60.0625rem]:pt-20 min-[60.0625rem]:pb-24">
+        <div className="px-5 py-12 sm:px-8 min-[60.0625rem]:pb-24">
           <div className="mb-5 flex items-center gap-3 font-mono text-xs">
             <span className="bg-brand-soft text-brand-soft-foreground px-2 py-1 font-semibold">
               DScode

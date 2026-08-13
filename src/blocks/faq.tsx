@@ -48,7 +48,7 @@ export function FAQ() {
   ];
 
   return (
-    <section id="faq" className="px-5 py-12 sm:px-8 lg:py-16">
+    <section id="faq" className="scroll-mt-24 px-5 py-12 sm:px-8 lg:py-16">
       <div className="mx-auto max-w-7xl">
         <h2 className="text-base leading-6 font-bold">
           {m['landing.faq.title']()}

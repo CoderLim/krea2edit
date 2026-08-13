@@ -98,8 +98,8 @@ export function SiteHeader({
             <Link
               href={ctaHref}
               className={cn(
-                buttonVariants(),
-                'bg-brand-soft text-brand-soft-foreground hover:bg-brand/20 dark:hover:bg-brand/25 ml-2 h-9 gap-1.5 rounded px-3 text-xs font-semibold shadow-none'
+                buttonVariants({ variant: 'ghost' }),
+                'bg-brand-soft text-brand-soft-foreground hover:bg-brand ml-2 h-9 gap-1.5 rounded px-3 text-xs font-semibold shadow-none hover:text-white dark:hover:text-slate-950'
               )}
             >
               {ctaLabel}
@@ -171,8 +171,8 @@ export function SiteHeader({
               <Link
                 href={ctaHref}
                 className={cn(
-                  buttonVariants(),
-                  'bg-brand-soft text-brand-soft-foreground hover:bg-brand/20 dark:hover:bg-brand/25 h-9 gap-1.5 rounded px-3 text-xs font-semibold shadow-none'
+                  buttonVariants({ variant: 'ghost' }),
+                  'bg-brand-soft text-brand-soft-foreground hover:bg-brand h-9 gap-1.5 rounded px-3 text-xs font-semibold shadow-none hover:text-white dark:hover:text-slate-950'
                 )}
                 onClick={() => setMobileOpen(false)}
               >

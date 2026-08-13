@@ -20,7 +20,7 @@ export function DeepSeekHarness() {
   return (
     <section
       id="deepseek-harness"
-      className="border-border border-y px-5 py-12 sm:px-8 lg:py-16"
+      className="border-border scroll-mt-24 border-y px-5 py-12 sm:px-8 lg:py-16"
     >
       <div className="mx-auto max-w-7xl">
         <p className="text-brand-soft-foreground font-mono text-[11px] font-semibold tracking-[0.16em] uppercase">
@@ -63,23 +63,23 @@ export function DeepSeekHarness() {
         <figure className="mt-12">
           <div className="border-border bg-muted overflow-hidden rounded-[18px] border p-1 shadow-[0_24px_70px_-40px_rgba(15,23,42,0.45)]">
             <img
-              src="/imgs/product/dscode-artifact-preview.webp"
-              srcSet="/imgs/product/dscode-artifact-preview-480.webp 480w, /imgs/product/dscode-artifact-preview-720.webp 720w, /imgs/product/dscode-artifact-preview-960.webp 960w, /imgs/product/dscode-artifact-preview.webp 1660w"
+              src="/imgs/product/dscode-terminal-preview.webp"
+              srcSet="/imgs/product/dscode-terminal-preview-480.webp 480w, /imgs/product/dscode-terminal-preview-720.webp 720w, /imgs/product/dscode-terminal-preview-960.webp 960w, /imgs/product/dscode-terminal-preview.webp 2634w"
               sizes="(max-width: 48rem) calc(100vw - 2.5rem), (max-width: 75rem) calc(100vw - 4rem), 70rem"
-              width="1660"
-              height="939"
+              width="2634"
+              height="1716"
               loading="lazy"
               decoding="async"
-              alt={m['landing.harness.artifact_alt']()}
+              alt={m['landing.harness.terminal_alt']()}
               className="bg-background h-auto w-full rounded-[14px]"
             />
           </div>
           <figcaption className="mt-4 flex flex-col items-start gap-3 text-xs leading-6 sm:flex-row sm:items-center">
             <span className="bg-brand-soft text-brand-soft-foreground shrink-0 rounded-[3px] px-2 py-1 font-mono font-semibold">
-              {m['landing.harness.screenshot_badge']()}
+              {m['landing.harness.terminal_badge']()}
             </span>
             <span className="text-muted-foreground">
-              {m['landing.harness.screenshot_caption']()}
+              {m['landing.harness.terminal_caption']()}
             </span>
           </figcaption>
         </figure>
