@@ -5,6 +5,7 @@ import { m } from '@/paraglide/messages.js';
 import { getLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
 import { CTA } from '@/blocks/cta';
 import { DeepSeekHarness } from '@/blocks/deepseek-harness';
+import { DesktopDownload } from '@/blocks/desktop-download';
 import { FAQ } from '@/blocks/faq';
 import { Features } from '@/blocks/features';
 import { Footer } from '@/blocks/footer';
@@ -21,6 +22,7 @@ function HomePage() {
       <Header />
       <main className="mx-auto w-full max-w-6xl">
         <Hero />
+        <DesktopDownload />
         <DeepSeekHarness />
         <Features />
         <HowItWorks />
@@ -122,6 +124,10 @@ export const Route = createFileRoute('/')({
                 codeRepository: 'https://github.com/thinkany-ai/dscode',
                 license: 'https://opensource.org/license/mit',
                 isAccessibleForFree: true,
+                softwareVersion: '0.1.0',
+                operatingSystem: 'macOS, Windows, Linux',
+                downloadUrl:
+                  'https://github.com/thinkany-ai/dscode/releases/tag/desktop-v0.1.0',
                 softwareRequirements: 'Node.js 22.19+ and Git',
                 image: socialImage,
               },

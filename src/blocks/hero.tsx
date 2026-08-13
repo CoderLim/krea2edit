@@ -37,6 +37,8 @@ export function Hero() {
             <div className="border-border bg-muted overflow-hidden rounded-[18px] border p-1 shadow-[0_24px_70px_-40px_rgba(15,23,42,0.45)]">
               <img
                 src="/imgs/product/dscode-desktop-preview.webp"
+                srcSet="/imgs/product/dscode-desktop-preview-480.webp 480w, /imgs/product/dscode-desktop-preview-720.webp 720w, /imgs/product/dscode-desktop-preview-960.webp 960w, /imgs/product/dscode-desktop-preview.webp 1468w"
+                sizes="(max-width: 48rem) calc(100vw - 2.5rem), (max-width: 75rem) calc(100vw - 4rem), 70rem"
                 width="1468"
                 height="932"
                 loading="eager"
