@@ -1,8 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { envConfigs } from '@/config';
+import { localeHeadLinks } from '@/lib/marketing-seo';
 import { m } from '@/paraglide/messages.js';
-import { getLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
+import { getLocale, locales } from '@/paraglide/runtime.js';
 import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
 import { BlogCard } from '@/components/blog-card';
@@ -16,9 +17,7 @@ export const Route = createFileRoute('/blog/')({
     return { locale, posts };
   },
   head: ({ loaderData }) => {
-    const locale = loaderData?.locale;
-    const urlFor = (loc: string) =>
-      localizeUrl(`${envConfigs.app_url}/blog`, { locale: loc as any }).href;
+    const locale = loaderData?.locale ?? 'en';
     return {
       meta: [
         {
@@ -29,14 +28,7 @@ export const Route = createFileRoute('/blog/')({
           content: m['blog.description']({}, { locale: locale as any }),
         },
       ],
-      links: [
-        { rel: 'canonical', href: urlFor(locale ?? 'en') },
-        ...locales.map((loc) => ({
-          rel: 'alternate',
-          hrefLang: loc,
-          href: urlFor(loc),
-        })),
-      ],
+      links: localeHeadLinks(envConfigs.app_url, '/blog', locale, locales),
     };
   },
   component: BlogPage,

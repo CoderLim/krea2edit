@@ -1,3 +1,5 @@
+import { localizeUrl } from '@/paraglide/runtime.js';
+
 type LocaleLink = {
   rel: string;
   href: string;
@@ -13,12 +15,38 @@ type MetaTag = {
 
 type Schema = Record<string, unknown>;
 
-function pageUrl(appUrl: string, path: string, locale: string): string {
+export function localePageUrl(
+  appUrl: string,
+  path: string,
+  locale: string
+): string {
   const origin = appUrl.replace(/\/$/, '');
   const pathname = path.startsWith('/') ? path : `/${path}`;
-  return locale === 'en'
-    ? `${origin}${pathname}`
-    : `${origin}/${locale}${pathname}`;
+  return localizeUrl(`${origin}${pathname}`, {
+    locale: locale as 'en' | 'zh' | 'zh-TW' | 'ja' | 'ko',
+  }).href;
+}
+
+export function localeHeadLinks(
+  appUrl: string,
+  path: string,
+  locale: string,
+  locales: readonly string[]
+): LocaleLink[] {
+  const defaultLocale = locales.includes('en') ? 'en' : locales[0];
+  return [
+    { rel: 'canonical', href: localePageUrl(appUrl, path, locale) },
+    ...locales.map((loc) => ({
+      rel: 'alternate',
+      hrefLang: loc,
+      href: localePageUrl(appUrl, path, loc),
+    })),
+    {
+      rel: 'alternate',
+      hrefLang: 'x-default',
+      href: localePageUrl(appUrl, path, defaultLocale),
+    },
+  ];
 }
 
 export function createMarketingHead(input: {
@@ -31,23 +59,16 @@ export function createMarketingHead(input: {
   image: string;
   schemas: readonly Schema[];
 }) {
-  const canonical = pageUrl(input.appUrl, input.path, input.locale);
+  const canonical = localePageUrl(input.appUrl, input.path, input.locale);
   const image = input.image.startsWith('http')
     ? input.image
     : `${input.appUrl.replace(/\/$/, '')}/${input.image.replace(/^\//, '')}`;
-  const links: LocaleLink[] = [
-    { rel: 'canonical', href: canonical },
-    ...input.locales.map((locale) => ({
-      rel: 'alternate',
-      hrefLang: locale,
-      href: pageUrl(input.appUrl, input.path, locale),
-    })),
-    {
-      rel: 'alternate',
-      hrefLang: 'x-default',
-      href: pageUrl(input.appUrl, input.path, 'en'),
-    },
-  ];
+  const links: LocaleLink[] = localeHeadLinks(
+    input.appUrl,
+    input.path,
+    input.locale,
+    input.locales
+  );
   const meta: MetaTag[] = [
     { title: input.title },
     { name: 'description', content: input.description },

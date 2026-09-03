@@ -6,6 +6,7 @@ import {
   buildArticleSchema,
   buildFaqSchema,
   createMarketingHead,
+  localePageUrl,
 } from '@/lib/marketing-seo';
 import { m } from '@/paraglide/messages.js';
 import { getLocale, locales } from '@/paraglide/runtime.js';
@@ -34,7 +35,11 @@ export const Route = createFileRoute('/vs-krea')({
         buildArticleSchema({
           headline: loaderData!.title,
           description: loaderData!.description,
-          url: `${envConfigs.app_url}/vs-krea`,
+          url: localePageUrl(
+            envConfigs.app_url,
+            '/vs-krea',
+            loaderData!.locale
+          ),
           image: `${envConfigs.app_url}/logo-og.png`,
         }),
         buildFaqSchema(

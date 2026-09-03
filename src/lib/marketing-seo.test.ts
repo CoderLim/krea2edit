@@ -30,7 +30,7 @@ test('createMarketingHead emits canonical, five locale alternates, and social me
     alternates.some(
       (link) =>
         link.hrefLang === 'zh-TW' &&
-        link.href === 'https://krea2edit.app/zh-TW/identity-edit'
+        link.href === 'https://krea2edit.app/zh-tw/identity-edit'
     )
   );
   assert.ok(

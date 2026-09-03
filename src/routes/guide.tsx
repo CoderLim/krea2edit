@@ -7,6 +7,7 @@ import {
   buildFaqSchema,
   buildHowToSchema,
   createMarketingHead,
+  localePageUrl,
 } from '@/lib/marketing-seo';
 import { m } from '@/paraglide/messages.js';
 import { getLocale, locales } from '@/paraglide/runtime.js';
@@ -25,7 +26,7 @@ export const Route = createFileRoute('/guide')({
   },
   head: ({ loaderData }) => {
     const d = loaderData!;
-    const url = `${envConfigs.app_url}/guide`;
+    const url = localePageUrl(envConfigs.app_url, '/guide', d.locale);
     return createMarketingHead({
       appUrl: envConfigs.app_url,
       path: '/guide',

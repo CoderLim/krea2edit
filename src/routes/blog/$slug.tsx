@@ -4,8 +4,9 @@ import { ArrowLeft, Calendar } from 'lucide-react';
 
 import { Link } from '@/core/i18n/navigation';
 import { envConfigs } from '@/config';
+import { localeHeadLinks } from '@/lib/marketing-seo';
 import { m } from '@/paraglide/messages.js';
-import { getLocale, localizeUrl } from '@/paraglide/runtime.js';
+import { getLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
 import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
 import { MarkdownContent } from '@/components/markdown-content';
@@ -48,7 +49,12 @@ export const Route = createFileRoute('/blog/$slug')({
             ]
           : []),
       ],
-      links: [{ rel: 'canonical', href: canonical }],
+      links: localeHeadLinks(
+        envConfigs.app_url,
+        `/blog/${post.slug}`,
+        locale,
+        locales
+      ),
     };
   },
   component: BlogPostPage,

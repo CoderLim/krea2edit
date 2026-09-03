@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { envConfigs } from '@/config';
+import { localeHeadLinks } from '@/lib/marketing-seo';
 import { m } from '@/paraglide/messages.js';
-import { getLocale } from '@/paraglide/runtime.js';
+import { getLocale, locales } from '@/paraglide/runtime.js';
 import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
 import { Pricing } from '@/blocks/pricing';
@@ -10,6 +12,7 @@ export const Route = createFileRoute('/pricing')({
   loader: () => {
     const locale = getLocale();
     return {
+      locale,
       title: m['landing.pricing.title']({}, { locale }),
       description: m['landing.pricing.description']({}, { locale }),
     };
@@ -20,6 +23,14 @@ export const Route = createFileRoute('/pricing')({
           { title: loaderData.title },
           { name: 'description', content: loaderData.description },
         ]
+      : [],
+    links: loaderData
+      ? localeHeadLinks(
+          envConfigs.app_url,
+          '/pricing',
+          loaderData.locale,
+          locales
+        )
       : [],
   }),
   component: PricingPage,

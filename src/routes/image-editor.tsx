@@ -6,6 +6,7 @@ import {
   buildFaqSchema,
   buildWebApplicationSchema,
   createMarketingHead,
+  localePageUrl,
 } from '@/lib/marketing-seo';
 import { m } from '@/paraglide/messages.js';
 import { getLocale, locales } from '@/paraglide/runtime.js';
@@ -23,7 +24,7 @@ export const Route = createFileRoute('/image-editor')({
   },
   head: ({ loaderData }) => {
     const d = loaderData!;
-    const url = `${envConfigs.app_url}/image-editor`;
+    const url = localePageUrl(envConfigs.app_url, '/image-editor', d.locale);
     return createMarketingHead({
       appUrl: envConfigs.app_url,
       path: '/image-editor',
