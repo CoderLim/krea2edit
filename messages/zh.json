@@ -857,6 +857,7 @@
   "landing.hero.eyebrow": "浏览器在线编辑",
   "landing.hero.iframe_note": "编辑器忙碌或空白？直接打开 Space：",
   "landing.footer.model_link_label": "LoRA 权重与许可：",
+  "landing.footer.more_tools": "更多工具",
   "landing.footer.partners": "友情链接",
   "landing.seo.comfy_nodes_title": "GitHub 上的 ComfyUI-Krea2Edit 节点包",
   "landing.seo.comfy_repo_title": "ComfyUI-Krea2Edit GitHub 存储库",

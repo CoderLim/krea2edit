@@ -857,6 +857,7 @@
   "landing.hero.eyebrow": "Live browser editor",
   "landing.hero.iframe_note": "Editor busy or blank? Open the Space directly:",
   "landing.footer.model_link_label": "LoRA weights and license:",
+  "landing.footer.more_tools": "More Tools",
   "landing.footer.partners": "Partners",
   "landing.seo.comfy_nodes_title": "ComfyUI-Krea2Edit node pack on GitHub",
   "landing.seo.comfy_repo_title": "ComfyUI-Krea2Edit GitHub repository",

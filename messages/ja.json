@@ -857,6 +857,7 @@
   "landing.hero.eyebrow": "ブラウザライブエディター",
   "landing.hero.iframe_note": "エディターが混雑または空白の場合、Spaceを直接開いてください：",
   "landing.footer.model_link_label": "LoRAウェイトとライセンス：",
+  "landing.footer.more_tools": "その他のツール",
   "landing.footer.partners": "パートナー",
   "landing.seo.comfy_nodes_title": "GitHub の ComfyUI-Krea2Edit ノード パック",
   "landing.seo.comfy_repo_title": "ComfyUI-Krea2Edit GitHub リポジトリ",

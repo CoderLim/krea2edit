@@ -3,6 +3,14 @@ import { m } from '@/paraglide/messages.js';
 
 const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
 
+/** External tools we recommend — append more entries as needed. */
+const MORE_TOOLS_LINKS = [
+  {
+    href: 'https://videotextremover.org/',
+    label: 'Video Text Remover',
+  },
+] as const;
+
 /** Reciprocal / partner badges — append more entries as exchanges land. */
 const PARTNER_BADGES = [
   {
@@ -115,6 +123,26 @@ export function Footer() {
           <p className="text-muted-foreground/70 mt-4 text-xs">
             © {new Date().getFullYear()} Krea2 Edit
           </p>
+        </div>
+
+        <div className="mt-8 border-t border-white/10 pt-6">
+          <p className="text-muted-foreground/80 text-[11px] tracking-[0.12em] uppercase">
+            {m['landing.footer.more_tools']()}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs">
+            {MORE_TOOLS_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={link.label}
+                className="hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="mt-8 border-t border-white/10 pt-6">
