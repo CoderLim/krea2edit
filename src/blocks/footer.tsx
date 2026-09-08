@@ -9,6 +9,10 @@ const MORE_TOOLS_LINKS = [
     href: 'https://videotextremover.org/',
     label: 'Video Text Remover',
   },
+  {
+    href: 'https://personremover.org/',
+    label: 'remove people from photo',
+  },
 ] as const;
 
 /** Reciprocal / partner badges — append more entries as exchanges land. */
