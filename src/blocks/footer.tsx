@@ -1,5 +1,9 @@
 import { Link } from '@/core/i18n/navigation';
 import { m } from '@/paraglide/messages.js';
+import {
+  AdsterraLeaderboard,
+  AdsterraNativeBanner,
+} from '@/components/analytics/adsterra';
 
 const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
 
@@ -47,6 +51,10 @@ const PARTNER_BADGES = [
 export function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black/40 px-4 py-12 sm:px-6">
+      <div className="mx-auto mb-10 max-w-6xl space-y-6">
+        <AdsterraLeaderboard />
+        <AdsterraNativeBanner />
+      </div>
       <div className="text-muted-foreground mx-auto max-w-6xl text-sm leading-relaxed">
         <p className="text-foreground font-serif text-base font-semibold tracking-tight">
           {m['landing.footer.brand']()}

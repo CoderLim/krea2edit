@@ -195,7 +195,6 @@ export function getSettingGroups(): SettingGroup[] {
         'Inject the AdSense script sitewide and serve /ads.txt from the configured publisher ID',
       tab: 'ads',
     },
-
     // Customer Service
     {
       name: 'crisp',

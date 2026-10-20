@@ -16,6 +16,7 @@ import { envConfigs } from '@/config';
 import { getQueryClient } from '@/lib/query-client';
 import { getLocale } from '@/paraglide/runtime.js';
 import { Ads } from '@/components/analytics/ads';
+import { AdsterraSitewide } from '@/components/analytics/adsterra';
 import { GoogleAnalytics } from '@/components/analytics/google-analytics';
 import { CustomerService } from '@/components/customer-service';
 import { GoogleOneTap } from '@/components/google-one-tap';
@@ -132,6 +133,7 @@ function RootComponent() {
           <GoogleAnalytics measurementId={analytics.gaId} />
         ) : null}
         {analytics?.adsenseCode ? <Ads code={analytics.adsenseCode} /> : null}
+        <AdsterraSitewide />
         <CustomerService
           crispWebsiteId={analytics?.crispWebsiteId || undefined}
           tawkPropertyId={analytics?.tawkPropertyId || undefined}

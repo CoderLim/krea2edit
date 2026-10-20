@@ -8,6 +8,7 @@ import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
 import { Hero } from '@/blocks/hero';
 import { SeoGuide } from '@/blocks/seo-guide';
+import { AdsterraBanner300 } from '@/components/analytics/adsterra';
 
 function buildJsonLd(canonical: string) {
   const webApp = {
@@ -106,6 +107,9 @@ function HomePage() {
       <Header />
       <main>
         <Hero />
+        <div className="flex justify-center px-4 py-8 sm:px-6">
+          <AdsterraBanner300 />
+        </div>
         <ExplorePageLinks />
         <SeoGuide />
       </main>
