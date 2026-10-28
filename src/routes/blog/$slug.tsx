@@ -9,6 +9,7 @@ import { m } from '@/paraglide/messages.js';
 import { getLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
 import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
+import { AdsterraMidPage } from '@/components/analytics/adsterra';
 import { MarkdownContent } from '@/components/markdown-content';
 import { mdxComponents } from '@/components/mdx-components';
 import { formatPostDate, loadLocalPost } from '@/content/posts';
@@ -117,6 +118,8 @@ function BlogPostPage() {
               className="border-border mb-8 w-full rounded-2xl border object-cover"
             />
           )}
+
+          <AdsterraMidPage className="px-0" />
 
           {LocalContent ? (
             <div className="text-foreground/90 text-[15px] leading-7">

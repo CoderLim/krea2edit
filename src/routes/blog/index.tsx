@@ -6,6 +6,7 @@ import { m } from '@/paraglide/messages.js';
 import { getLocale, locales } from '@/paraglide/runtime.js';
 import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
+import { AdsterraMidPage } from '@/components/analytics/adsterra';
 import { BlogCard } from '@/components/blog-card';
 import { formatPostDate } from '@/content/posts';
 import { getBlogPostsFn } from '@/content/posts/server';
@@ -50,6 +51,7 @@ function BlogPage() {
               {m['blog.description']()}
             </p>
           </div>
+          <AdsterraMidPage className="mb-10 py-0" />
           {posts.length === 0 ? (
             <p className="text-muted-foreground text-center">
               {m['blog.no_posts']()}

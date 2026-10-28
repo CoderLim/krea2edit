@@ -160,6 +160,17 @@ export function AdsterraBanner300({ className }: { className?: string }) {
   return <AdsterraBannerUnit banner={BANNER_300} className={className} />;
 }
 
+/** Mid-page 300×250 with consistent public-page spacing. */
+export function AdsterraMidPage({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn('flex w-full justify-center px-4 py-8 sm:px-6', className)}
+    >
+      <AdsterraBanner300 />
+    </div>
+  );
+}
+
 /** Desktop 728×90. */
 export function AdsterraBanner728({ className }: { className?: string }) {
   return <AdsterraBannerUnit banner={BANNER_728} className={className} />;

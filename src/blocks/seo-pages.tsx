@@ -8,6 +8,7 @@ import {
 } from '@/lib/marketing-content';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
+import { AdsterraMidPage } from '@/components/analytics/adsterra';
 import {
   BeforeAfterGallery,
   ComparisonTable,
@@ -70,6 +71,7 @@ export function IdentityEditPage() {
         note={m['marketing.editor.note']()}
         openLabel={m['marketing.editor.open']()}
       />
+      <AdsterraMidPage />
       <BeforeAfterGallery
         title={m['identity.examples.title']()}
         intro={m['identity.examples.intro']()}
@@ -115,6 +117,7 @@ export function GuidePage() {
         <PageHero eyebrow={m['guide.eyebrow']()} title={m['guide.h1']()}>
           {m['guide.intro']()}
         </PageHero>
+        <AdsterraMidPage />
         <FeatureGrid
           title={m['guide.needs.title']()}
           intro={m['guide.needs.body']()}
@@ -201,6 +204,7 @@ export function ImageEditorPage() {
         note={m['marketing.editor.note']()}
         openLabel={m['marketing.editor.open']()}
       />
+      <AdsterraMidPage />
       <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
         <h2 className="font-serif text-3xl font-semibold sm:text-4xl">
           {m['image.what.title']()}
@@ -246,6 +250,7 @@ export function VsKreaPage() {
       <PageHero eyebrow={m['vs.eyebrow']()} title={m['vs.h1']()}>
         {m['vs.intro']()}
       </PageHero>
+      <AdsterraMidPage />
       <section className="mx-auto max-w-4xl px-4 py-14 sm:px-6 sm:py-20">
         <p className="font-mono text-xs tracking-[.18em] text-cyan-300 uppercase">
           Decision
@@ -351,6 +356,7 @@ export function NoComfyUiPage() {
         note={m['marketing.editor.note']()}
         openLabel={m['marketing.editor.open']()}
       />
+      <AdsterraMidPage />
       <ComparisonTable
         title={m['nocomfy.compare.title']()}
         intro={m['nocomfy.compare.intro']()}

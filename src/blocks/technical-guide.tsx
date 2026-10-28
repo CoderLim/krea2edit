@@ -4,6 +4,7 @@ import { Link } from '@/core/i18n/navigation';
 import { parseLocalizedItems } from '@/lib/marketing-content';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
+import { AdsterraMidPage } from '@/components/analytics/adsterra';
 import { FaqList, PageHero } from '@/components/marketing/marketing-primitives';
 import { buttonVariants } from '@/components/ui/button';
 
@@ -34,6 +35,7 @@ export function TechnicalGuide() {
         >
           {m['technical.intro']()}
         </PageHero>
+        <AdsterraMidPage />
 
         <article className="mx-auto max-w-4xl px-4 pb-20 sm:px-6 sm:pb-28">
           <section>
