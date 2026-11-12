@@ -10,6 +10,10 @@ const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
 /** External tools we recommend — append more entries as needed. */
 const MORE_TOOLS_LINKS = [
   {
+    href: 'https://getaiphotoeditor.com/',
+    label: 'Get AI Photo Editor',
+  },
+  {
     href: 'http://genjutsuai.net/',
     label: 'Genjutsu AI',
   },
