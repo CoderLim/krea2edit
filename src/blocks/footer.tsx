@@ -11,7 +11,11 @@ const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
 const MORE_TOOLS_LINKS = [
   {
     href: 'https://getaiphotoeditor.com/',
-    label: 'Get AI Photo Editor',
+    label: 'AI Photo Editor',
+  },
+  {
+    href: 'https://airapreel.com/',
+    label: 'AI Rap Video',
   },
   {
     href: 'http://genjutsuai.net/',
