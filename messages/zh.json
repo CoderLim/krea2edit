@@ -972,6 +972,8 @@
   "technical.back": "Open the browser editor",
   "marketing.nav.editor": "编辑器",
   "marketing.nav.guide": "指南",
+  "marketing.nav.ai_photo_editor": "AI Photo Editor",
+  "marketing.nav.new_badge": "New",
   "marketing.editor.title": "Krea2 Identity Edit 在线编辑器",
   "marketing.editor.note": "实时编辑器通过 Hugging Face Space 嵌入。共享 GPU 繁忙时可全屏打开。",
   "marketing.editor.open": "全屏打开编辑器",

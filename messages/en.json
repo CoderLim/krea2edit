@@ -972,6 +972,8 @@
   "technical.back": "Open the browser editor",
   "marketing.nav.editor": "Editor",
   "marketing.nav.guide": "Guide",
+  "marketing.nav.ai_photo_editor": "AI Photo Editor",
+  "marketing.nav.new_badge": "New",
   "marketing.editor.title": "Krea2 Identity Edit online editor",
   "marketing.editor.note": "The live editor runs in an embedded Hugging Face Space. If the shared GPU is busy, open it full-screen.",
   "marketing.editor.open": "Open the editor full-screen",

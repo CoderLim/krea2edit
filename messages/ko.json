@@ -972,6 +972,8 @@
   "technical.back": "Open the browser editor",
   "marketing.nav.editor": "에디터",
   "marketing.nav.guide": "가이드",
+  "marketing.nav.ai_photo_editor": "AI Photo Editor",
+  "marketing.nav.new_badge": "New",
   "marketing.editor.title": "Krea2 Identity Edit 온라인 에디터",
   "marketing.editor.note": "라이브 에디터는 Hugging Face Space로 실행됩니다. GPU가 혼잡하면 전체 화면으로 여세요.",
   "marketing.editor.open": "전체 화면으로 에디터 열기",

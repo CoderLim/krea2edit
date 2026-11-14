@@ -8,17 +8,29 @@ import { localizeHref } from '@/paraglide/runtime.js';
 import { LocaleSelector } from '@/components/locale-selector';
 
 const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
+const AI_PHOTO_EDITOR = 'https://getaiphotoeditor.com/';
 
 export function Header() {
   const [open, setOpen] = useState(false);
 
-  const links = [
+  const links: {
+    href: string;
+    label: string;
+    external?: boolean;
+    badge?: string;
+  }[] = [
     {
       href: localizeHref('/identity-edit'),
       label: m['marketing.nav.editor'](),
     },
     { href: localizeHref('/guide'), label: m['marketing.nav.guide']() },
     { href: localizeHref('/blog'), label: m['landing.nav.blog']() },
+    {
+      href: AI_PHOTO_EDITOR,
+      label: m['marketing.nav.ai_photo_editor'](),
+      external: true,
+      badge: m['marketing.nav.new_badge'](),
+    },
   ];
 
   return (
@@ -47,9 +59,17 @@ export function Header() {
               key={link.href}
               href={link.href}
               title={link.label}
-              className="text-muted-foreground hover:text-foreground rounded-md px-3 py-1.5 text-sm font-medium no-underline transition-colors hover:bg-white/5"
+              {...(link.external
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
+              className="text-muted-foreground hover:text-foreground relative rounded-md px-3 py-1.5 text-sm font-medium no-underline transition-colors hover:bg-white/5"
             >
               {link.label}
+              {link.badge ? (
+                <span className="bg-primary text-primary-foreground absolute -top-1.5 -right-1 rounded px-1 py-px text-[9px] leading-tight font-bold tracking-wide uppercase">
+                  {link.badge}
+                </span>
+              ) : null}
             </a>
           ))}
           <a
@@ -84,10 +104,18 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 title={link.label}
-                className="text-muted-foreground hover:text-foreground rounded-md px-3 py-2.5 text-sm font-medium hover:bg-white/5"
+                {...(link.external
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
+                className="text-muted-foreground hover:text-foreground relative rounded-md px-3 py-2.5 text-sm font-medium hover:bg-white/5"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
+                {link.badge ? (
+                  <span className="bg-primary text-primary-foreground absolute top-1.5 right-2 rounded px-1 py-px text-[9px] leading-tight font-bold tracking-wide uppercase">
+                    {link.badge}
+                  </span>
+                ) : null}
               </a>
             ))}
             <a

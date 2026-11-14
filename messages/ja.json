@@ -972,6 +972,8 @@
   "technical.back": "Open the browser editor",
   "marketing.nav.editor": "エディター",
   "marketing.nav.guide": "ガイド",
+  "marketing.nav.ai_photo_editor": "AI Photo Editor",
+  "marketing.nav.new_badge": "New",
   "marketing.editor.title": "Krea2 Identity Edit オンラインエディター",
   "marketing.editor.note": "ライブエディターは Hugging Face Space を埋め込んでいます。GPU が混雑している場合は全画面で開いてください。",
   "marketing.editor.open": "エディターを全画面で開く",
