@@ -10,23 +10,23 @@ const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
 /** External tools we recommend — append more entries as needed. */
 const MORE_TOOLS_LINKS = [
   {
-    href: 'https://getaiphotoeditor.com/',
+    href: 'https://getaiphotoeditor.com/?utm_source=krea2edit',
     label: 'AI Photo Editor',
   },
   {
-    href: 'https://airapreel.com/',
+    href: 'https://airapreel.com/?utm_source=krea2edit',
     label: 'AI Rap Video',
   },
   {
-    href: 'http://genjutsuai.net/',
+    href: 'http://genjutsuai.net/?utm_source=krea2edit',
     label: 'Genjutsu AI',
   },
   {
-    href: 'https://videotextremover.org/',
+    href: 'https://videotextremover.org/?utm_source=krea2edit',
     label: 'Video Text Remover',
   },
   {
-    href: 'https://personremover.org/',
+    href: 'https://personremover.org/?utm_source=krea2edit',
     label: 'remove people from photo',
   },
 ] as const;

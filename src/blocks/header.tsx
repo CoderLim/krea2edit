@@ -8,7 +8,7 @@ import { localizeHref } from '@/paraglide/runtime.js';
 import { LocaleSelector } from '@/components/locale-selector';
 
 const MODEL_CARD = 'https://huggingface.co/conradlocke/krea2-identity-edit';
-const AI_PHOTO_EDITOR = 'https://getaiphotoeditor.com/';
+const AI_PHOTO_EDITOR = 'https://getaiphotoeditor.com/?utm_source=krea2edit';
 
 export function Header() {
   const [open, setOpen] = useState(false);
