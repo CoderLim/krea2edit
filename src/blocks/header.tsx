@@ -20,17 +20,17 @@ export function Header() {
     badge?: string;
   }[] = [
     {
-      href: localizeHref('/identity-edit'),
-      label: m['marketing.nav.editor'](),
-    },
-    { href: localizeHref('/guide'), label: m['marketing.nav.guide']() },
-    { href: localizeHref('/blog'), label: m['landing.nav.blog']() },
-    {
       href: AI_PHOTO_EDITOR,
       label: m['marketing.nav.ai_photo_editor'](),
       external: true,
       badge: m['marketing.nav.new_badge'](),
     },
+    {
+      href: localizeHref('/identity-edit'),
+      label: m['marketing.nav.editor'](),
+    },
+    { href: localizeHref('/guide'), label: m['marketing.nav.guide']() },
+    { href: localizeHref('/blog'), label: m['landing.nav.blog']() },
   ];
 
   return (
@@ -66,7 +66,7 @@ export function Header() {
             >
               {link.label}
               {link.badge ? (
-                <span className="bg-primary text-primary-foreground absolute -top-1.5 -right-1 rounded px-1 py-px text-[9px] leading-tight font-bold tracking-wide uppercase">
+                <span className="absolute -top-1.5 -right-1 rounded bg-red-500 px-1 py-px text-[9px] leading-tight font-bold tracking-wide text-white uppercase">
                   {link.badge}
                 </span>
               ) : null}
@@ -112,7 +112,7 @@ export function Header() {
               >
                 {link.label}
                 {link.badge ? (
-                  <span className="bg-primary text-primary-foreground absolute top-1.5 right-2 rounded px-1 py-px text-[9px] leading-tight font-bold tracking-wide uppercase">
+                  <span className="absolute top-1.5 right-2 rounded bg-red-500 px-1 py-px text-[9px] leading-tight font-bold tracking-wide text-white uppercase">
                     {link.badge}
                   </span>
                 ) : null}
